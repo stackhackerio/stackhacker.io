@@ -1,0 +1,6 @@
+.git
+node_modules
+**/.next/**
+package.json
+package-lock.json
+next-env.d.ts
