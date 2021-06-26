@@ -21,7 +21,7 @@ export const fetchPosts = () => {
       content,
       data,
       filePath,
-      slug
+      slug,
     }
   })
 
@@ -30,11 +30,11 @@ export const fetchPosts = () => {
 
 export const fetchSlugs = () => {
   const filePaths = glob.sync(path.join(POSTS_PATH, '/**/*.mdx'))
+
   return filePaths.map((filePath) => getSlug(filePath))
 }
 
 export const getPost = (slug) => {
-  console.log(slug)
   const postFilePath = path.join(POSTS_PATH, slug, 'index.mdx')
   const source = fs.readFileSync(postFilePath)
 
@@ -42,6 +42,6 @@ export const getPost = (slug) => {
 
   return {
     content,
-    data
+    data,
   }
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
-import { fetchPosts } from '../utils/mdxUtils'
+
+import Layout from '@/components/layout'
+import { fetchPosts } from '@/utils/mdx/posts'
 
 export default function Index({ posts }) {
   return (

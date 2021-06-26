@@ -1,24 +1,20 @@
-import { MDXRemote } from 'next-mdx-remote'
-import { serialize } from 'next-mdx-remote/serialize'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
-import path from 'path'
+import { MDXRemote } from 'next-mdx-remote'
+import { serialize } from 'next-mdx-remote/serialize'
 import remarkUnwrapImages from 'remark-unwrap-images'
 
-import CustomLink from '../../components/CustomLink'
-import Layout from '../../components/Layout'
-import HogeImg from '../../components/HogeImg'
-import Code from "../../components/code"
-import { getPost, fetchSlugs } from '../../utils/mdxUtils'
-import { Language } from "prism-react-renderer"
+import Layout from '@/components/layout'
+import CustomLink from '@/components/custom-link'
+import NextImg from '@/components/next-image'
+import Code from '@/components/code'
+import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
-const components = (slug) => ({
+const components = ({ slug }: { slug: string }) => ({
   a: CustomLink,
-  TestComponent: dynamic(() => import('../../components/TestComponent')),
   Head,
   img: ({ src, alt }) => {
-    return HogeImg({ src, alt, slug })
+    return NextImg({ src, alt, slug })
   },
   pre: ({ children: { props } }) => {
     const { className, children, mdxType } = props
@@ -26,17 +22,11 @@ const components = (slug) => ({
     const codeString = children.trim()
 
     if (mdxType === `code`) {
-      return (
-        <Code
-          codeString={codeString}
-          language={language}
-          {...props}
-        />
-      )
+      return <Code codeString={codeString} language={language} {...props} />
     } else {
       return <span>{props.children}</span>
     }
-  }
+  },
 })
 
 export default function PostPage({ source, frontMatter, slug }) {
@@ -56,7 +46,7 @@ export default function PostPage({ source, frontMatter, slug }) {
         )}
       </div>
       <main>
-        <MDXRemote {...source} components={components(slug)} />
+        <MDXRemote {...source} components={components({ slug })} />
       </main>
     </Layout>
   )
@@ -66,9 +56,7 @@ export const getStaticProps = async ({ params }) => {
   const { content, data } = getPost(params.slug)
   const mdxSource = await serialize(content, {
     mdxOptions: {
-      remarkPlugins: [
-        remarkUnwrapImages
-      ],
+      remarkPlugins: [remarkUnwrapImages],
       rehypePlugins: [],
     },
     scope: data,
@@ -84,8 +72,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths = async () => {
-  const paths = fetchSlugs()
-    .map((slug) => ({ params: { slug } }))
+  const paths = fetchSlugs().map((slug) => ({ params: { slug } }))
 
   return {
     paths,

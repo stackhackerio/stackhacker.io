@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
-import { copyToClipboard } from '../utils/copy-to-clipboard'
 import rangeParser from 'parse-numeric-range'
+import { copyToClipboard } from '@/utils/copy-to-clipboard'
 
 const calculateLinesToHighlight = (meta: string) => {
   const RE = /{([\d,-]+)}/
