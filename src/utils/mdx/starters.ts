@@ -5,13 +5,14 @@ import glob from 'glob'
 
 const STARTERS_PATH = path.join(process.cwd(), 'src/contents/starters')
 
-const getSlug = (filePath) => {
+const filePaths: [string] = glob.sync(path.join(STARTERS_PATH, '/**/*.mdx'))
+
+const getSlug = (filePath: string) => {
   const a = filePath.split(path.sep)
   return a[a.length - 2]
 }
 
 export const fetchStarters = () => {
-  const filePaths = glob.sync(path.join(STARTERS_PATH, '/**/*.mdx'))
   const starters = filePaths.map((filePath) => {
     const slug = getSlug(filePath)
     const source = fs.readFileSync(filePath)
@@ -20,7 +21,6 @@ export const fetchStarters = () => {
     return {
       content,
       data,
-      filePath,
       slug,
     }
   })
@@ -29,12 +29,10 @@ export const fetchStarters = () => {
 }
 
 export const fetchSlugs = () => {
-  const filePaths = glob.sync(path.join(STARTERS_PATH, '/**/*.mdx'))
-
   return filePaths.map((filePath) => getSlug(filePath))
 }
 
-export const getStarter = (slug) => {
+export const getStarter = (slug: string) => {
   const filePath = path.join(STARTERS_PATH, slug, 'index.mdx')
   const source = fs.readFileSync(filePath)
 

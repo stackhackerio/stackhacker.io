@@ -6,15 +6,16 @@ import remarkUnwrapImages from 'remark-unwrap-images'
 
 import Layout from '@/components/layout'
 import CustomLink from '@/components/custom-link'
-import NextImg from '@/components/next-image'
+import RemarkImg from '@/components/remark-img'
 import Code from '@/components/code'
 import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
 const components = ({ slug }: { slug: string }) => ({
-  a: CustomLink,
   Head,
+  a: CustomLink,
   img: ({ src, alt }) => {
-    return NextImg({ src, alt, slug })
+    const i = require(`../../contents/posts/${slug}/${src}`).default
+    return RemarkImg({ src: i, alt })
   },
   pre: ({ children: { props } }) => {
     const { className, children, mdxType } = props

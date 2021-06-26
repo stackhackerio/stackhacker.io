@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import Image from 'next/image'
 import { MDXRemote } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import remarkUnwrapImages from 'remark-unwrap-images'
 
 import Layout from '@/components/layout'
 import CustomLink from '@/components/custom-link'
-import NextImg from '@/components/next-image'
+import RemarkImg from '@/components/remark-img'
 import Code from '@/components/code'
 import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
 
@@ -14,7 +15,8 @@ const components = ({ slug }: { slug: string }) => ({
   a: CustomLink,
   Head,
   img: ({ src, alt }) => {
-    return NextImg({ src, alt, slug, content: 'starters' })
+    const i = require(`@/contents/starters/${slug}/${src}`).default
+    return RemarkImg({ src: i, alt })
   },
   pre: ({ children: { props } }) => {
     const { className, children, mdxType } = props
@@ -30,6 +32,9 @@ const components = ({ slug }: { slug: string }) => ({
 })
 
 export default function StarterPage({ source, frontMatter, slug }) {
+  const preview =
+    require(`@/contents/starters/${slug}/${frontMatter.preview}`).default
+
   return (
     <Layout>
       <header>
@@ -38,6 +43,14 @@ export default function StarterPage({ source, frontMatter, slug }) {
             <a>👈 Go back list</a>
           </Link>
         </nav>
+        <Image
+          width={1200}
+          height={1000}
+          src={preview}
+          layout="intrinsic"
+          alt="preview"
+          objectFit="contain"
+        />
       </header>
       <h1>{frontMatter.title}</h1>
       {frontMatter.description && (

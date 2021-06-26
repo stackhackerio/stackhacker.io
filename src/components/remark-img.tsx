@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-const NextImg = ({ src, alt, slug, content = 'posts' }) => {
-  const i = require(`../contents/${content}/${slug}/${src}`).default
-
+const RemarkImg = ({ src, alt }) => {
   return (
     <div
       style={{
@@ -17,13 +15,13 @@ const NextImg = ({ src, alt, slug, content = 'posts' }) => {
         backgroundColor: '#fffff',
       }}
     >
-      <Link href={i}>
+      <Link href={src}>
         <a target="_blank">
-          <Image layout="fill" objectFit="contain" alt={alt} src={i} />
+          <Image layout="fill" objectFit="contain" alt={alt} src={src} />
         </a>
       </Link>
     </div>
   )
 }
 
-export default NextImg
+export default RemarkImg
