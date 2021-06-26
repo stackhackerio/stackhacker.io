@@ -1,0 +1,307 @@
+---
+title: Shopify
+date: 2020-02-27
+description: "GastbyとShopifyでつくります。"
+published: false
+image: images/cover.png
+slug: /gatsby-shopify
+---
+前回の記事でStripeを使って、Gatsbyで商品を販売するためのサイト構築に関してご紹介しました。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/gatsby-stripe-advanced/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fgatsby-stripe-advanced%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e&amp;iframe=card-small"></a></div></div>
+
+今回は、Shopifyを使って、GatsbyでECサイトの構築をしていきます。
+
+## Shopifyの設定
+
+まず、Shopifyのサイトより、アカウントとストアの作成を済ませます。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.shopify.jp" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.shopify.jp%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e&amp;iframe=card-small"></a></div></div>
+
+### プライベートアプリの作成
+
+Gatsbyサイトからデータを取得するために、プライベートアプリを作成します。
+
+ストアのダッシュボードのサイドメニューから**アプリ管理**を開きます。
+
+![アプリ管理](https://p50.f0.n0.cdn.getcloudapp.com/items/qGuoyvm5/Image+2020-02-20+at+11.25.56+AM.png?v=4a7a9034af703af36c6daa066b980013)
+
+下の方にある**プライベートアプリを管理**を開きます。
+
+![プライベートアプリを管理](https://p50.f0.n0.cdn.getcloudapp.com/items/X6uzBdpx/Image+2020-02-20+at+11.28.40+AM.png?v=c580b0de4955ed452f2d079b9d9bd13a)
+
+**新しいプライベートアプリを作成する**を押します。
+
+![新しいプライベートアプリを作成する](https://p50.f0.n0.cdn.getcloudapp.com/items/z8uX5Yzo/Image+2020-02-20+at+11.29.59+AM.png?v=ff574da60cbd85e67d2bbfc941283f98)
+
+<!-- textlint-disable -->
+**プライベートアプリ名**には適切な名称を入力して、**緊急連絡用開発者メール**にメールアドレスを入力します。
+<!-- textlint-enable -->
+
+![アプリの詳細](https://p50.f0.n0.cdn.getcloudapp.com/items/WnuNdro0/Image+2020-02-20+at+11.31.16+AM.png?v=e8eb20273fc267ef48766bcd2ab23e6d)
+
+**Admin API**は、デフォルトのままにします。表示されている項目が**Read access**になっているのを確認します。
+
+![Admin API](https://p50.f0.n0.cdn.getcloudapp.com/items/L1ug4Q0K/Image+2020-02-20+at+11.32.11+AM.png?v=7e290ea7a122855c4ca6b352c302ae5d)
+
+<!-- textlint-disable -->
+**ストアフロントAPI**の欄にある、**このアプリがストアフロントAPIを使用して...**をチェックします。
+<!-- textlint-enable -->
+
+![ストアフロントAPI](https://p50.f0.n0.cdn.getcloudapp.com/items/v1urAr8J/Image+2020-02-21+at+10.38.00+AM.png?v=c9037249e7c81a8b6dcd8b85bf06be45)
+
+**ストアフロントAPI権限**が表示されるので、デフォルトでチェックされているのに加えて、**商品タグを読む**にもチェックします。
+
+![商品タグを読む](https://p50.f0.n0.cdn.getcloudapp.com/items/E0uqlqQA/Image+2020-02-21+at+10.37.22+AM.png?v=0a767ce90684af1a5ed5c5452d700e6e)
+
+以上で、**保存する**をクリックします。確認が求められるので、内容を確認して、アプリを作成します。
+
+下の方に、ストアフロントのアクセストークンが表示されます。後ほど、Gatsbyサイトの設定で使用するので控えておきます。
+
+![ストアフロントのアクセストークン](https://p50.f0.n0.cdn.getcloudapp.com/items/9ZuAP0l4/Image+2020-02-20+at+11.37.42+AM.png?v=6cde76d599ed1c153324cbeef0b35bf8)
+
+### 商品の作成
+
+続けて、Shopify上で、商品を追加します。
+
+サイドメニューより**商品管理**を選択します。
+
+![商品管理](https://p50.f0.n0.cdn.getcloudapp.com/items/5zuy7dWK/Image+2020-02-20+at+11.40.38+AM.png?v=b30526105e719d78666325373ad450d1)
+
+**商品を追加する**を押します。
+
+![商品を追加する](https://p50.f0.n0.cdn.getcloudapp.com/items/d5u0YP8B/Image+2020-02-20+at+11.41.37+AM.png?v=5a1ab004a032cd8ba6a12f3557bd4020)
+
+タイトル、説明、価格だけ入力して保存します。
+
+![商品](https://p50.f0.n0.cdn.getcloudapp.com/items/qGuoylQ6/Image+2020-02-20+at+12.59.52+PM.png?v=18614802a9d36b1cb41a66f88acc072c)
+
+Shopify側の設定は以上です。次に、Gatsbyサイト側をセットアップしていきます。
+
+## Gatbyサイトの構築
+
+まず、開発環境でgatsbyを使える環境が必要になります。
+
+セットアップがまだの場合は、下記のチュートリアルを参考にセットアップしてください。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/tutorial/part-zero/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.gatsbyjs.org%2Ftutorial%2Fpart-zero%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+## Gatsbyサイトの作成
+
+デフォルトのスターターをベースに新しくプロジェクトを作成します。
+
+```shell
+gatsby new startuphacker-shop
+```
+
+新しく作成したプロジェクトのディレクトリーに移動して、必要なパッケージをインストールします。
+
+```shell
+cd startuphacker-shop
+npm install --save gatsby-source-shopify shopify-buy
+```
+
+プラグインの設定をします。以下を内容を`gatsby-config.js`に追加します。
+
+```javascript
+plugins: [
+  .
+  .
+  .
+  `gatsby-plugin-sharp`,
+  {
+    resolve: `gatsby-plugin-manifest`,
+    options: {
+      name: `gatsby-starter-default`,
+      short_name: `starter`,
+      start_url: `/`,
+      background_color: `#663399`,
+      theme_color: `#663399`,
+      display: `minimal-ui`,
+      icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+    },
+  },
+  {
+    resolve: `gatsby-source-shopify`,
+    options: {
+      shopName: `[ショップ名]`,
+      accessToken: `[アクセストークン]`,
+    },
+  },
+]
+```
+
+**ショップ名**には、ストア作成時に指定した、サブドメインを入力します。管理画面のURLから確認できます。
+
+![Shop name](https://p50.f0.n0.cdn.getcloudapp.com/items/YEuA81ry/Image+2020-02-21+at+11.28.58+AM.png?v=149be5d3aa11a472aaa1d888849730d7)
+
+**アクセストークン**には、先ほどプライベートアプリを作成した際に控えておいた、ストアフロントのアクセストークンを入力します。
+
+これで、開発サーバーを起動します。
+
+```shell
+gatsby develop
+```
+
+## Shopifyから商品の一覧データを取得
+
+まず、GraphiQLでデータを取得できるか確認します。
+
+以下のURLにアクセスして、GraphiQLを開きます。
+
+http://localhost:8000/__graphql
+
+以下のクエリーを入力して実行します。
+
+```graphql
+{
+  allShopifyProduct(sort: { fields: [title] }) {
+    edges {
+      node {
+        title
+        shopifyId
+        description
+        priceRange {
+          maxVariantPrice {
+            amount
+          }
+          minVariantPrice {
+            amount
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+先ほど、登録した商品を確認できます。
+
+![GraphiQL](https://p50.f0.n0.cdn.getcloudapp.com/items/OAurRbeN/Image+2020-02-21+at+11.53.39+AM.png?v=6e63acde725d56eb0c6045b4b0cc1267)
+
+このクエリーをベースに商品一覧を作成します。
+
+下記の内容で`src/pages/products.js`を作成します。
+
+```javascript
+import React from "react"
+import { Link, graphql } from "gatsby"
+import Layout from "../components/layout"
+const ProductsPage = ({ data }) => (
+  <Layout>
+    <h1>Products</h1>
+    <ul>
+      {data.allShopifyProduct.edges.map(({ node }) => (
+        <li key={node.shopifyId}>
+          <h3>
+            <Link to={`/product/${node.handle}`}>{node.title}</Link>
+            {" - "}{parseInt(node.priceRange.minVariantPrice.amount)}円
+          </h3>
+          <p>{node.description}</p>
+        </li>
+      ))}
+    </ul>
+  </Layout>
+)
+export default ProductsPage
+export const query = graphql`
+  {
+    allShopifyProduct(sort: { fields: [title] }) {
+      edges {
+        node {
+          title
+          shopifyId
+          description
+          handle
+          priceRange {
+            minVariantPrice {
+              amount
+            }
+          }
+        }
+      }
+    }
+  }
+`
+```
+
+作成したページにアクセスします。
+
+http://localhost:8000/products
+
+商品の一覧を確認できます。
+
+![商品一覧](https://p50.f0.n0.cdn.getcloudapp.com/items/ApurNOeO/Image+2020-02-21+at+9.26.04+AM.png?v=65b89c116ea3b6b1b43e0880f8e35896)
+
+## 商品の詳細ページを作成
+
+さらに、先ほどの一覧からリンクを作成したので、その先の商品の詳細ページを作成します。
+
+まず、下記の内容を`src/templates/proeuct.js`というファイル名でテンプレートを作成します。
+
+```jsx
+import React from "react"
+import Layout from "../components/layout"
+const ProductTemplate = ({ pageContext }) => {
+  const { product } = pageContext
+
+  return (
+    <Layout>
+      <h1>{product.title}</h1>
+      <div>{parseInt(product.priceRange.minVariantPrice.amount)}円</div>
+      <div>{product.description}</div>
+    </Layout>
+  )
+}
+export default ProductTemplate
+```
+
+この、テンプレートをベースに、データを取得し、その取得した商品毎にページを生成します。`gatsby-node.js`に以下を追加します。
+
+```javascript
+const path = require(`path`)
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  // Query for all products in Shopify
+  const result = await graphql(`
+    query {
+      allShopifyProduct(sort: { fields: [title] }) {
+        edges {
+          node {
+            title
+            shopifyId
+            handle
+            description
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+  result.data.allShopifyProduct.edges.forEach(({ node }) => {
+    createPage({
+      path: `/product/${node.handle}`,
+      component: path.resolve(`./src/templates/product.js`),
+      context: {
+        product: node,
+      },
+    })
+  })
+}
+```
+
+商品の一覧からリンクをたどると商品の詳細を表示できました。
+
+![商品詳細](https://p50.f0.n0.cdn.getcloudapp.com/items/d5u0zvm2/Image+2020-02-21+at+12.05.51+PM.png?v=bbcb40adb5231fe9fea6dcc285874cb9)
+
+## おわりに
+
+Shopifyを使うことで、手軽にECサイトをはじめることができます。また、フロントにGatsbyを使うことで、柔軟性の高いデザインや操作性を兼ね揃えたサイトを構築できます。
+
+## 参考
+
+* [Building an e-commerce site with Shopify](https://www.gatsbyjs.org/docs/building-an-ecommerce-site-with-shopify/)

@@ -1,0 +1,308 @@
+---
+title: GatsbyとStripeでECサイトを構築(2/2)
+date: "2020-02-26T22:12:03.284Z"
+description: "GatsbyサイトにStripeで登録した商品の情報を表示します。"
+published: false
+image: images/cover.png
+slug: /gatsby-stripe-advanced
+---
+
+前回、Gatsbyサイトに商品をクレジットカードで購入できるようにしました。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/gatsby-stripe/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fgatsby-stripe%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+今回はStripeに登録した商品情報を取得して、Gatsbyサイトに商品一覧ページを追加します。
+
+## プラグインのインストールおよび設定
+
+商品をStripeから取得できるようにソースプラグインをインストールします。
+
+```shell
+npm install --save gatsby-source-stripe
+```
+
+まず、シークレットキーをStripeダッシュボードのAPIキーより、[テスト用キーを表示]して取得します。
+
+https://dashboard.stripe.com/test/apikeys
+
+![テスト用キーを表示](https://p50.f0.n0.cdn.getcloudapp.com/items/5zuy17vW/Image+2020-02-27+at+10.24.29+AM.png?v=181613cbd6bf58166f11f8cd1816e457)
+
+パスワードが求められるので入力して続けます。
+
+`.env.development`というファイルを作成して、取得した`STRIPE_SECRET_KEY`にシークレットキーをセットします。前回は直接ページに公開可能キーをセットしましたが、公開可能キーも設定ファイルに保持するようにします。`GATSBY_STRIPE_PUBLIC_KEY`に公開可能キーをセットします。
+
+```text
+# Stripeシークレットキー
+STRIPE_SECRET_KEY=sk_test_xxx
+# Stripe公開可能キー
+GATSBY_STRIPE_PUBLIC_KEY=pk_test_xxx
+```
+
+このファイルを読み込むために、以下を`gatsby-config.js`の先頭に以下を追加します。
+
+```js
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+```
+
+さらに、`gatsby-config.js`にプラグインを設定するため、ハイライト部分を追加します。
+
+```js {10-18}
+module.exports = {
+  siteMetadata: {
+    title: `Gatsby Default Starter`,
+    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    author: `@gatsbyjs`,
+  },
+  plugins: [
+    ...
+    `gatsby-plugin-stripe`,
+    "gatsby-plugin-stripe",
+    {
+      resolve: `gatsby-source-stripe`,
+      options: {
+        objects: ["Sku"],
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        downloadFiles: true,
+      },
+    },
+  ],
+}
+```
+
+シークレットキーは慎重に取り扱う必要があります。もし、gitでプロジェクトを管理する場合は、リポジトリに含まれないように下記を`.gitignore`に追加します。
+
+```text
+# dotenv environment variables files
+.env
+.env.development
+.env.production
+```
+
+## 商品一覧
+
+前回商品を一つだけしか登録していなかったので、いくつか登録しておきます。
+
+![商品一覧](https://p50.f0.n0.cdn.getcloudapp.com/items/GGuNkLvn/Image+2020-02-27+at+10.55.56+AM.png?v=1f3d568e9b1067c759a5487aeea5f74a)
+
+準備ができたので、Stripeから商品を取得して、一覧を描画するコンポーネントを作成ます。
+
+`src/components/Products/Skus.js`
+
+```jsx
+import React, { Component } from "react"
+import { graphql, StaticQuery } from "gatsby"
+class Skus extends Component {
+  render() {
+    return (
+      <StaticQuery
+        query={graphql`
+          query SkusForProduct {
+            skus: allStripeSku {
+              edges {
+                node {
+                  id
+                  currency
+                  price
+                  attributes {
+                    name
+                  }
+                }
+             }
+            }
+          }
+        `}
+        render={({ skus }) => (
+          <div>
+            {skus.edges.map(({ node: sku }) => (
+              <p key={sku.id}>{sku.attributes.name}</p>
+            ))}
+          </div>
+        )}
+      />
+    )
+  }
+}
+
+export default Skus
+```
+
+一覧を表示するページを新規に作成します。
+
+```jsx
+import React from "react"
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import Skus from "../components/Products/Skus"
+
+const AdvancedExamplePage = () => (
+  <Layout>
+    <SEO title="Advanced Example" />
+    <h1>This is the advanced example</h1>
+    <Skus />
+  </Layout>
+)
+export default AdvancedExamplePage
+```
+
+サーバーを起動します。
+
+```
+gatsby develop
+```
+
+すでに起動している場合は、止めて起動しなおす必要があります。
+
+作成したページを開きます。
+
+http://localhost:8000/advanced
+
+商品一覧の表示ができました。
+
+![商品一覧](https://p50.f0.n0.cdn.getcloudapp.com/items/E0uqblPX/Image+2020-02-27+at+11.03.27+AM.png?v=9caee33b0442c82200be279016557d93)
+
+次に商品を購入できるようにして、見た目ももう少し整えていきます。
+
+カード形式で表示するので、`src/components/Products/SkuCard.js`というファイル名で、以下の内容をペーストします。
+
+```jsx
+import React from "react"
+const cardStyles = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-around",
+  alignItems: "flex-start",
+  padding: "1rem",
+  marginBottom: "1rem",
+  boxShadow: "5px 5px 25px 0 rgba(46,61,73,.2)",
+  backgroundColor: "#fff",
+  borderRadius: "6px",
+  minWidth: "250px",
+  maxWidth: "300px",
+}
+const buttonStyles = {
+  fontSize: "13px",
+  textAlign: "center",
+  color: "#fff",
+  outline: "none",
+  padding: "12px",
+  boxShadow: "2px 5px 10px rgba(0,0,0,.1)",
+  backgroundColor: "rgb(255, 178, 56)",
+  borderRadius: "6px",
+  letterSpacing: "1.5px",
+}
+const formatPrice = (amount, currency) => {
+  let numberFormat = new Intl.NumberFormat(["ja-JP"], {
+    style: "currency",
+    currency: currency,
+    currencyDisplay: "symbol",
+  })
+  return numberFormat.format(amount)
+}
+
+const SkuCard = class extends React.Component {
+  async redirectToCheckout(event, sku, quantity = 1) {
+    event.preventDefault()
+    const { error } = await this.props.stripe.redirectToCheckout({
+      items: [{ sku, quantity }],
+      successUrl: `http://localhost:8000/page-2/`,
+      cancelUrl: `http://localhost:8000/advanced`,
+    })
+    if (error) {
+      console.warn("Error:", error)
+    }
+  }
+
+  render() {
+    const sku = this.props.sku
+
+    return (
+      <div style={cardStyles}>
+        <h4>{sku.attributes.name}</h4>
+        <p>価格: {formatPrice(sku.price, sku.currency)}</p>
+        <button
+          style={buttonStyles}
+          onClick={event => this.redirectToCheckout(event, sku.id)}
+        >
+          購入する
+        </button>
+      </div>
+    )
+  }
+}
+
+export default SkuCard
+```
+
+次に、先ほどの`src/components/Products/Skus.js`を編集して、SkuCardを読み込むようにして、Stripeの初期化の処理を追加します。
+
+```jsx {5-11,14-21,43,45}
+import React, { Component } from "react"
+import { graphql, StaticQuery } from "gatsby"
+import SkuCard from "./SkuCard"
+
+const containerStyles = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  padding: "1rem 0 1rem 0",
+}
+
+class Skus extends Component {
+  state = {
+    stripe: null,
+  }
+
+  componentDidMount() {
+    const stripe = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
+    this.setState({ stripe })
+  }
+
+  render() {
+    return (
+      <StaticQuery
+        query={graphql`
+          query SkusForProduct {
+            skus: allStripeSku {
+              edges {
+                node {
+                  id
+                  currency
+                  price
+                  attributes {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        `}
+        render={({ skus }) => (
+          <div style={containerStyles}>
+            {skus.edges.map(({ node: sku }) => (
+              <SkuCard key={sku.id} sku={sku} stripe={this.state.stripe} />
+            ))}
+          </div>
+        )}
+      />
+    )
+  }
+}
+
+export default Skus
+```
+
+![商品一覧](https://p50.f0.n0.cdn.getcloudapp.com/items/RBudq7Wk/Image+2020-02-28+at+4.05.06+PM.png?v=53cf51dde1b8f35443958a109d7d4d75)
+
+## おわりに
+
+Gatsbyを使うことで、サイトの柔軟性を保ちつつ、このような機能を簡単に追加できます。
+
+もちろん、WordPressのwoocommerceやEC-cubeなどを導入しても同等のことはできるのですが、どうしてもサーバのメンテナンス面での不安がありました。
+
+Gatsbyであれば、ただの静的なページなのでメンテナンス面でも安心です。
+
+**参考** Gatsby E-commerce Tutorial
+* https://www.gatsbyjs.org/tutorial/ecommerce-tutorial/

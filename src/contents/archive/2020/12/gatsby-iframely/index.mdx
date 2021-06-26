@@ -1,0 +1,105 @@
+---
+title: Gatsbyサイトの外部リンクをiframelyでいい感じに表示
+date: "2020-02-19T10:00:00.000Z"
+description: "Gatsbyサイトで外部リンクをiframelyを使っていい感じに表示します。"
+published: false
+image: images/cover.png
+slug: /gatsby-iframely
+---
+
+ブログ記事を書いていると、外部リンクを張ることが多いのですが、ただ張るだけだと、このように素っ気ない感じになってしまいます。
+
+![Link](https://p50.f0.n0.cdn.getcloudapp.com/items/NQuZzJbK/Image+2020-02-19+at+10.13.12+AM.png?v=dc61805b51c527ca8b0662f2c8d7a01f)
+
+iframelyを使うと、このような表示できます。
+
+![Embeded](https://p50.f0.n0.cdn.getcloudapp.com/items/L1ugPN4w/Image+2020-02-19+at+10.13.43+AM.png?v=a3ec68f691c052b8b40c1f7c83487820)
+
+いい感じの見た目と、タイトルや概要もあり、どんなサイトなのかイメージができて便利です。
+
+iframelyというサービスを使って表示する手順をご紹介します。
+
+## iframely
+
+iframelyのサイトにアクセスします。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://iframely.com/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fiframely.com%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+対象のURLをペースとして、[CHECK IT]をクリックします。
+
+![Paste your http:// URL](https://p50.f0.n0.cdn.getcloudapp.com/items/xQugpnRm/Image+2020-02-19+at+10.43.24+AM.png?v=1d665ecb2339d99e32a615e231e45e3e)
+
+プレビューが表示され、[Mobie]にするとスマホなどと小さめの画面、[Desktop]にするとPCなどの大きめの画面での見え方を確認することができます。
+
+![COPY CODE](https://p50.f0.n0.cdn.getcloudapp.com/items/wbumy9Bo/Image+2020-02-19+at+10.46.06+AM.png?v=908bc26b6f52d51b709cf4e906d13575)
+
+あとは、[COPY CODE]でコピーしたコードをそのままブログ記事にペーストするだけです。
+
+ただ、コピーしたコードをみていただくとわかるのですが、`<script>...</script>`タグが埋めこまれていて、前回紹介したGatsbyブログスターターをベースにしている場合、このままではうまく機能しません。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/deploy-netlify/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fdeploy-netlify&key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div>
+
+続いて、表示できるように設定していきます。
+
+## embed.jsの読み込み
+
+Headerで読み込むようにHelmetに設定します。
+
+まず、コンポーネントを作成します。`src/components/iframely.js`ファイルを作成して下記の内容をペーストします。
+
+```jsx
+import React from 'react';
+import Helmet from 'react-helmet';
+
+export default class Iframely extends React.Component {
+  componentDidMount() {
+    if (window.iframely) {
+      window.iframely.load();
+    }
+  }
+
+  render() {
+    return (
+      <Helmet>
+        <script type="text/javascript" src="https://cdn.iframe.ly/embed.js" charset="utf-8" />
+      </Helmet>
+    );
+  }
+}
+```
+
+先ほどのコンポーネントをレイアウトで読み込むように、`src/templates/blog-post.js`を修正します。
+
+```jsx
+import React from "react"
+import { Link, graphql } from "gatsby"
+
+import Bio from "../components/bio"
+import Layout from "../components/layout"
+import Iframely from "../components/iframely"
+import SEO from "../components/seo"
+import { rhythm, scale } from "../utils/typography"
+
+const BlogPostTemplate = ({ data, pageContext, location }) => {
+  const post = data.markdownRemark
+  const siteTitle = data.site.siteMetadata.title
+  const { previous, next } = pageContext
+
+  return (
+    <Layout location={location} title={siteTitle}>
+      <SEO
+        title={post.frontmatter.title}
+        description={post.frontmatter.description || post.excerpt}
+      />
+      <Iframely />
+      <article>
+        <header>
+```
+
+これで、ブログ記事を表示して、埋めこんだ外部リンクを表示できるようになりました。
+
+![external](https://p50.f0.n0.cdn.getcloudapp.com/items/Qwu7R9OJ/Image+2020-02-19+at+11.04.35+AM.png?v=c801a1dd0ae3d7e02686d6b2b1373f95)
+
+## おわりに
+
+リンクだけの文字列だと素っ気ない感じがしたのですが、iframelyを使えばお手軽にいい感じに表示できました。

@@ -1,0 +1,208 @@
+---
+title: Next.jsでFirebaseを使って認証の仕組みを構築する(3/4)
+date: 2021-01-26 08:00
+description: Next.jsとFirebaseで認証の仕組みを構築します。GitHubでサインイン、サインアウトができるように認証処理を実装します。
+image: cover.png
+readingTime: 8
+category: Tech stack
+---
+前回の記事でNext.jsからFirebaseに接続できるようにセットアップしました。
+
+https://stackhacker.io/nextjs-firebase-auth-2
+
+今回は、実際にGitHubアカウントでサインインできるようにNext.jsの実装をします。
+
+## 認証フック
+
+Reactでは、機能を再利用できるようにフックとしてまとめることができます。フックを通して、どのコンポーネントからでも、現在サインインしているユーザーにアクセスして、サインインやサインアウトができるようになります。この認証の機能を認証フックにまとめて、`useAuth`フックとして作成していきます。
+
+`useAuth`のAPIはシンプルに下記の通りにします。
+
+- user - 現在サインインしているユーザー情報を取得（サインインしている場合）
+- signinWithGitHub - GitHub へサインインの処理を開始する関数
+- signout - ユーザーをサインアウトしてセッションをクリアする関数
+
+これらの値をアプリケーション全体で利用できるように、Reactコンテキストを使用します。コンテキストを使うことで、コンポーネントのどの階層へもプロパティを渡すことなく提供することができます。
+
+コンテキストは、現在サインインしているユーザー情報のように、Reactコンポーネントのツリーに対して「グローバル」でデータを共有するために設計されています。コンテキストを提供するためにはコンテキストプロバイダを作成します。
+
+まず、処理の概要を示します。
+
+```jsx
+import React, { useState, useEffect, useContext, createContext } from 'react'
+import firebase from './firebase'
+
+const authContext = createContext()
+
+export function AuthProvider({ children }) {
+  const auth = useProvideAuth()
+
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>
+}
+
+export const useAuth = () => {
+  return useContext(authContext)
+}
+
+function useProvideAuth() {
+  return {
+    user: null,
+    signinWithGitHub: null,
+    signout: null,
+  }
+}
+```
+
+それでは、`lib/auth.js`というファイルを新規作成して、実際のサインインとアウトのロジックを追加して、現在サインインしているユーザー情報を保存します。
+
+`lib/auth.js`
+
+```jsx
+import React, { useState, useEffect, useContext, createContext } from 'react'
+import firebase from './firebase'
+
+const authContext = createContext()
+
+export function AuthProvider({ children }) {
+  const auth = useProvideAuth()
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>
+}
+
+export const useAuth = () => {
+  return useContext(authContext)
+}
+
+function useProvideAuth() {
+  const [user, setUser] = useState(null)
+
+  const handleUser = (rawUser) => {
+    if (rawUser) {
+      const user = formatUser(rawUser)
+      setUser(user)
+      
+      return user
+    } else {
+      setUser(false)
+      
+      return false
+    }
+  }
+
+  const signinWithGitHub = () => {
+    return firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GithubAuthProvider())
+      .then((response) => handleUser(response.user))
+  }
+
+  const signout = () => {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => handleUser(false))
+  }
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(handleUser)
+
+    return () => unsubscribe()
+  }, [])
+
+  return {
+    user,
+    signinWithGitHub,
+    signout,
+  }
+}
+
+const formatUser = (user) => {
+  return {
+    uid: user.uid,
+    email: user.email,
+    name: user.displayName,
+    provider: user.providerData[0].providerId,
+    photoUrl: user.photoURL,
+  }
+}
+```
+
+ユーザーがGitHubにサインインしたら、`GithubAuthProvider`と先ほど作成したGitHubアプリを使ってユーザーの情報を取得します。そして、このフックの中で`response.user`をローカルに保存します。
+
+ユーザーがサインアウトした場合や、コンポーネントが使用されなくなった場合は、サブスクライブを解除し、ユーザーを`false`に設定します。
+
+## 認証画面
+
+`userAuth`フックを使って、サインインとサインアウト、そしてユーザーの情報を取得することができるようになりました。動作を確認するために、認証画面を作成します。
+
+まず、コンテキストにアクセスするために、アプリケーションを`AuthProvider`で囲む必要があります。
+
+`pages/_app.js`
+
+```jsx
+import { AuthProvider } from '../lib/auth'
+
+const App = ({ Component, pageProps }) => {
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  )
+}
+
+export default App
+```
+
+そして、`pages/index.js`というファイルを修正して、以下のコードにします。
+
+`pages/index.js`
+
+```jsx
+import { useAuth } from '../lib/auth'
+
+export default function Index() {
+  const auth = useAuth()
+
+  return auth.user ? (
+    <div>
+      <p>メールアドレス: {auth.user.email}</p>
+      <button onClick={(e) => auth.signout()}>サインアウト</button>
+    </div>
+  ) : (
+    <button onClick={(e) => auth.signinWithGitHub()}>サインイン</button>
+  )
+}
+```
+
+これで、GitHub にサインインしてメールアドレスを表示できるようになりました。
+
+サーバーが立ちあがってない場合は`yarn dev`で起動して、ブラウザーで開発サーバーに接続して、以下の手順を実行します。
+
+* **サインイン**ボタンをクリックすると、GitHubの認証画面が別ウィンドウに表示されます
+* GitHub情報へのアクセスを許可すると、サインイン処理が開始されます
+
+サインインが成功すると、画面が切り替わり、メールアドレスが表示されます。
+
+`auth.user`オブジェクトに保持されている情報は次のようになります。
+
+```json
+{
+  "uid": "xxxxxxxxxxxxxxxxx",
+  "email": "xxx@xxxx.jp",
+  "name": "Taro Tanaka",
+  "provider": "github.com"
+}
+```
+
+## おわりに
+
+ユーザーがGitHubアカウントでサインインできるようになりました。ただ、このままだと、ユーザーの情報はユーザーのブラウザーには保持されていますが、サービス提供側は参照できません。
+
+次回は、このユーザー情報をCloud Firestoreを使ってバックエンド側にも保持できるようにします。
+
+https://stackhacker.io/nextjs-firebase-auth-4
+
+## 参考
+
+本記事は下記の内容を一部抜粋して、日本語環境で実行するための補足をして紹介しています。
+
+https://react2025.com

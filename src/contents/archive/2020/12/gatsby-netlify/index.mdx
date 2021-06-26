@@ -1,0 +1,142 @@
+---
+title: Gatsbyでブログを作成してNetlifyに公開
+date: 2020-02-07T22:12:03.284Z
+description: Gatsbyでブログを作成し、Netlifyにデプロイして独自ドメインで公開するまでの手順をご紹介します。
+published: false
+image: images/cover.png
+readingTime: 8
+slug: /gatsby-netlify
+---
+本ブログはGatsbyで構築して、Netlifyにホスティングして公開しています。
+
+この記事では、Gatsbyでブログを立ち上げて、独自ドメインを取得して、公開するまでの手順を順にご紹介します。
+
+## 事前準備
+
+まず、はじめる前にいくつか準備をします。
+
+### 開発環境
+
+Gatsbyサイトを作成するために`npm`、`gatsby-cli`と`git`が必要なので、下記を参照にセットアップしてください。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/tutorial/part-zero/" data-iframely-url="//cdn.iframe.ly/Xoa1a60" target="_blank_"></a></div></div>
+
+Netlifyを操作するために`netlify-cli`をグローバルにインストールします。
+
+```bash
+npm install netlify-cli -g
+```
+
+### Netlifyアカウント
+
+Netlifyのサイトよりサインアップします。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.netlify.com/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.netlify.com%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e&amp;iframe=card-small" target="_blank_"></a></div></div>
+
+### Gatsbyサイトの作成
+
+GatsbyのブログスタータをベースにGatsbyサイトを作成していきます。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://github.com/gatsbyjs/gatsby-starter-blog" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fgithub.com%2Fgatsbyjs%2Fgatsby-starter-blog&key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div>
+
+まず、ローカルの開発環境でGatsbyサイトを作成します。
+
+```bash
+gatsby new startuphacker https://github.com/gatsbyjs/gatsby-starter-blog
+```
+
+今後のコマンドを実行するためにプロジェクトのディレクトリーで実行する必要があるので、作成したディレクトリーに移動します。
+
+```bash
+cd startuphacker
+```
+
+## Netlifyにサイトを作成
+
+次に、サイトを公開するためにはNetlify上にサイトを作成します。
+
+先ほど作成したNetflifyのアカウントでログインします。
+
+```bash
+netlify login
+```
+
+サイトを初期化するコマンドを実行します。
+
+```bash
+netlify init
+```
+
+実行時に以下の質問が聞かれるので、下記のように入力します。
+
+1. まず、Gitリポジトリーなしでサイトを作成するか聞かれます。いったん、ここでは "Yes, create and deploy site manually" を選択して、Gitリポジトリーなしで進めます。
+1. チームを選択します。Sign Up時に作成したチームを選択します。
+1. サイト名を入力します。デフォルトだとランダムな名前が割り振られるのでそのままリターンキーを押します。
+
+## Netlifyにデプロイ
+
+Gatsbyサイトをビルドするために、`gatsby build`を実行します。
+
+```bash
+gatsby build 
+```
+
+ビルドしたコンテンツは`public`に生成されるので、その配下をデプロイします。
+
+```bash
+netlify deploy -d public --prod
+```
+
+デプロイしたサイトを表示します。
+
+```bash
+netlify open --site
+``**
+
+これでサイトを公開できました！
+
+![Blog](https://p50.f0.n0.cdn.getcloudapp.com/items/QwuGPwv6/Image+2020-02-08+at+8.08.58+PM.png?v=ead5ba205d7a941f8b513f6557816b61)
+
+## ドメインの設定
+
+続いて、ドメインを設定します。ここでは、Netflifyでドメインを取得して設定していきます。
+
+Netflifyの画面から設定するので、以下のリンクよりログインします。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://app.netlify.com/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fapp.netlify.com%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+一覧から先ほど作成したサイトを選択します。
+
+サイトの概要が表示されるので、その中から**Domain settings**を開きます。
+
+![Domain settings](https://p50.f0.n0.cdn.getcloudapp.com/items/xQu0y8D4/Image+2020-02-06+at+9.38.44+AM.png?v=022d2b66b942aff033f9b35ea6dd97ad)
+
+**Add custom domain**からドメインを追加します。
+
+![Add custom domain](https://p50.f0.n0.cdn.getcloudapp.com/items/geurnXzq/Image+2020-02-06+at+9.40.20+AM.png?v=5b8a8b7249cf659c2e3f8e16b7fce694)
+
+ドメインを入力して、**Verify**をクリックします。
+
+![Add a custom domain to your site](https://p50.f0.n0.cdn.getcloudapp.com/items/xQu0y8AA/Image+2020-02-06+at+9.41.21+AM.png?v=65da055f7d45988f36661463d8a543a1)
+
+金額が表示されるので、[Add payment method]を押してクレジットカードの情報を入力します。
+
+![Add payment method](https://p50.f0.n0.cdn.getcloudapp.com/items/NQuv8G14/Image+2020-02-06+at+9.41.37+AM.png?v=ba47a63d13d5517e612af81e5bd8c141)
+
+**Custom domains**の一覧にドメインが追加されます。
+
+![Custom domains](https://p50.f0.n0.cdn.getcloudapp.com/items/Jru70915/Image+2020-02-06+at+9.43.50+AM.png?v=d20243c746bca2199f291dc8d05c3ef9)
+
+自動的に設定が開始され、しばらく経つと、[Waiting on DNS propagation]というのがなくなり設定が完了します。
+
+さらに、下の方にHTTPSの欄があるので、こちらも自動的に設定され、HTTPSでも接続することができるようになります。
+
+![HTTPS](https://p50.f0.n0.cdn.getcloudapp.com/items/yAuLdmyX/Image+2020-02-06+at+9.46.52+AM.png?v=e427ab2e8f1fdf98a2dd3ac3adc9187f)
+
+## おわりに
+
+いままで、ブログはWordPressで運用していましたが、DBがとまってしまうなどのパフォーマンス的であったり、攻撃されたりなどのセキュリティ的な心配が絶えませんでした。
+
+その点、Gatsbyだと静的なサイトを生成して、静的なページをホスティングしているだけなので、安心して運用ができそうです。
+
+また、Reactベースなので、Reactのエコシステムが活用できるので、GraphQLで外部のデータを取り込んだりと、柔軟性も高いので、どんどん活用していきたいと思います。

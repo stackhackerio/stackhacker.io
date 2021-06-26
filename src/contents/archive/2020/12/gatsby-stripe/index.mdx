@@ -1,0 +1,251 @@
+---
+title: GatsbyとStripeでECサイトを構築(1/2)
+date: "2020-02-25T22:12:03.284Z"
+description: "GatsbyにStripeを使ってカード決済の機能を追加します。"
+published: false
+image: images/cover.png
+slug: /gatsby-stripe
+---
+Stripeを使ってGatsbyサイトで商品を購入できるようにするための手順をご紹介します。
+
+Gatsby公式サイトで公開されているチュートリアルをベースに解説していきます。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/tutorial/ecommerce-tutorial/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.gatsbyjs.org%2Ftutorial%2Fecommerce-tutorial%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+## 前提条件
+
+1. Gatsbyの基本的な事は理解していることを前提に解説します。もし、Gatsbyが初めての方は、下記のチュートリアルを一通りやってみることをお勧めします。
+  <div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/tutorial/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.gatsbyjs.org%2Ftutorial%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+1. Stripeのアカウントが必要になります。Stripeのサイトより作成してください。
+  <div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://stripe.com/jp" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstripe.com%2Fjp&amp;key=c6d07ad7d9471df8b16e593030a23e7e&amp;iframe=card-small" target="_blank"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+最初に、Gatsbyデフォルトスターターをベースにプロジェクトを作成します。
+
+```shell
+gatsby new ecommerce-gatsby-tutorial
+```
+
+作成したプロジェジクトのディレクトリに移動して、StripeJSプラグインをインストールします。
+
+```shell
+cd ecommerce-gatsby-tutorial
+npm install --save gatsby-plugin-stripe
+```
+
+StripeJSプラグインを使えるように`gatsby-config.js`に設定を追加します。ハイライト部分を追加します。
+
+```js {34}
+module.exports = {
+  siteMetadata: {
+    title: `Gatsby Default Starter`,
+    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    author: `@gatsbyjs`,
+  },
+  plugins: [
+    `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images`,
+      },
+    },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `gatsby-starter-default`,
+        short_name: `starter`,
+        start_url: `/`,
+        background_color: `#663399`,
+        theme_color: `#663399`,
+        display: `minimal-ui`,
+        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.dev/offline
+    // `gatsby-plugin-offline`,
+
+    `gatsby-plugin-stripe`,
+  ],
+}
+```
+
+この段階で開発サーバーを起動してみます。
+
+```shell
+gatsby develop
+```
+
+ページをChromeのデベロッパーツールなどでHTMLエレメントの中身をみてみましょう。ページの下部の方で、`script`タグでStripeJSが読み込まれているのを確認することができます。
+
+![script stripejs](https://p50.f0.n0.cdn.getcloudapp.com/items/jkuKKDo7/Image+2020-02-26+at+5.05.43+PM.png?v=c8aa085764e762db436709c9b298651d)
+
+これで、StripeJSの機能をGatsbyで使用できるようになりました。
+
+## Stripe
+
+### 公開可能キーの取得
+
+次に、公開可能キーを取得するために、基本的な設定をします。
+
+Stripeのホームにあるサイドメニューから[設定]を選んで、設定画面を開きます。
+
+![設定](https://p50.f0.n0.cdn.getcloudapp.com/items/04uKKOKo/Image+2020-02-26+at+5.15.12+PM.png?v=2aab9a5327c640ca314af7871dd7e9ee)
+
+[ビジネス設定]の[アカウント情報]を開きます。
+
+![アカウント情報](https://p50.f0.n0.cdn.getcloudapp.com/items/v1urrx4O/Image+2020-02-26+at+5.23.54+PM.png?v=75152cff13bd58740041ffbeb4b016fe)
+
+[アカウント名]を入力して、[保存]します。
+
+![アカウント名](https://p50.f0.n0.cdn.getcloudapp.com/items/2NuBBjEz/Image+2020-02-26+at+5.25.33+PM.png?v=003cce7f2128455f86850e34d4c28f82)
+
+設定画面に戻って、[商品の設定]から[Checkoutの設定]を開きます。
+
+![Checkoutの設定](https://p50.f0.n0.cdn.getcloudapp.com/items/ApurrLjk/Image+2020-02-26+at+5.17.23+PM.png?v=b1f82e012f682be9b7ed780b87749b92)
+
+[Checkoutクライアント専用組込]のトグルをオンにして[有効]にします。トグルをオンにした際、プロンプトが表示されるので、内容を確認して、[許可]します。
+
+![有効](https://p50.f0.n0.cdn.getcloudapp.com/items/ApurrLAv/Image+2020-02-26+at+5.19.46+PM.png?v=2c36ac57c6cc5e1b099c71e779315c0b)
+
+ホームで[公開可能キー]をクリックして、コピーした内容を控えておきます。
+
+![公開可能キー](https://p50.f0.n0.cdn.getcloudapp.com/items/rRu66obk/Image+2020-02-26+at+5.30.16+PM.png?v=9e8f41f22a6d4faf0881178aebbf9cf3)
+
+### 商品の登録
+
+次に販売する商品を登録しておきます。
+
+サイドメニューから[商品]を選びます。
+
+![商品](https://p50.f0.n0.cdn.getcloudapp.com/items/BluBB1d8/Image+2020-02-26+at+5.33.28+PM.png?v=b9e249f0a2a2f927a566a9ebddf4fd63)
+
+[新規]を押して、商品の登録画面を開きます。
+
+![新規](https://p50.f0.n0.cdn.getcloudapp.com/items/8LuJJrDz/Image+2020-02-26+at+5.34.50+PM.png?v=b86fb6faa4c232efef792f4df28a00f7)
+
+[商品名]と[金額]を入力して、[商品を保存]します。
+
+![商品保存](https://p50.f0.n0.cdn.getcloudapp.com/items/GGuNNrKY/Image+2020-02-26+at+5.36.32+PM.png?v=a9d68759cc75a4aedb2a873bb6918065)
+
+保存できると商品の[SKU]が発行されるので、これも控えておきます。
+
+![SKU](https://p50.f0.n0.cdn.getcloudapp.com/items/rRu66oQ8/Image+2020-02-26+at+5.37.52+PM.png?v=dd8e0a06b981bc51a9effbc04be40b7e)
+
+## Gatsbyサイトを構築
+
+下記の内容を`src/components/checkout.js`というファイル名で新しくファイルを作成します。
+
+先ほど、控えた公開可能キーと商品のskuをセットする必要があるので、コード内のコメントを参考にしてください。
+
+```jsx
+import React from "react"
+const buttonStyles = {
+  fontSize: "13px",
+  textAlign: "center",
+  color: "#fff",
+  outline: "none",
+  padding: "12px 60px",
+  boxShadow: "2px 5px 10px rgba(0,0,0,.1)",
+  backgroundColor: "rgb(255, 178, 56)",
+  borderRadius: "6px",
+  letterSpacing: "1.5px",
+}
+const Checkout = class extends React.Component {
+  // StripsJSの初期化の引数に自身の公開可能キーを設定して下さい。
+  // キーはダッシュボードで確認することができます。
+  // https://dashboard.stripe.com/account/apikeys
+  componentDidMount() {
+    this.stripe = window.Stripe("pk_test_jG9s3XMdSjZF9Kdm5g59zlYd")
+  }
+  async redirectToCheckout(event) {
+    event.preventDefault()
+  // skuに自身で登録した商品のSKUを設定して下さい。
+  // https://dashboard.stripe.com/products
+    const { error } = await this.stripe.redirectToCheckout({
+      items: [{ sku: "sku_DjQJN2HJ1kkvI3", quantity: 1 }],
+      successUrl: `http://localhost:8000/page-2/`,
+      cancelUrl: `http://localhost:8000/`,
+    })
+    if (error) {
+      console.warn("Error:", error)
+    }
+  }
+  render() {
+    return (
+      <button
+        style={buttonStyles}
+        onClick={event => this.redirectToCheckout(event)}
+      >
+        本を購入する
+      </button>
+    )
+  }
+}
+export default Checkout
+```
+
+作成したコンポーネントをインデックスページに追加します。
+
+```jsx
+import React from "react"
+import { Link } from "gatsby"
+import Layout from "../components/layout"
+import Image from "../components/image"
+import SEO from "../components/seo"
+// highlight-next-line
+import Checkout from "../components/checkout"
+const IndexPage = () => (
+  <Layout>
+    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+    <h1>Hi people</h1>
+    <p>Welcome to your new Gatsby site.</p>
+    <p>Now go build something great.</p>
+    // highlight-next-line
+    <Checkout />
+    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
+      <Image />
+    </div>
+    <Link to="/page-2/">Go to page 2</Link>
+  </Layout>
+)
+export default IndexPage
+```
+
+サイトのインデックスページを開いてみます。
+
+http://localhost:8000/
+
+**本を購入する**ボタンが追加されていることを確認できます。
+
+![本を購入する](https://p50.f0.n0.cdn.getcloudapp.com/items/geu2WlBz/Image+2020-02-27+at+9.33.03+AM.png?v=8bbce24ba16f5c0c07e0dd2b5ffa6c9b)
+
+**本を購入する**ボタンを押すと、Stripeの購入画面にリダイレクトされます。
+
+以下を参考に必要な項目を入力します。
+
+* メールアドレス：自身のメールアドレス
+* カード情報：[こちら](https://stripe.com/docs/testing#cards)のテスト用のカード番号を使用し、日付は未来の適当な日付、CVCはカード番号毎に指定の適当な桁数の数値
+* カード所有者：適当なアルファベット
+
+支払うボタンを押すことで購入が完了します。
+
+![Stripe](https://p50.f0.n0.cdn.getcloudapp.com/items/DOu8QNpb/Image+2020-02-27+at+9.45.11+AM.png?v=24717f80479c8abf84ec9e3c9cdd235c)
+
+Stripeのダッシュボードの支払いで購入された商品を確認できます。
+
+https://dashboard.stripe.com/payments
+
+![支払い](https://p50.f0.n0.cdn.getcloudapp.com/items/lluyDvB5/Image+2020-02-27+at+9.47.25+AM.png?v=5858a60af4d9188b62d323185921fab5)
+
+## おわりに
+
+GatsbyでStripeJSを使って、カード決済機能を追加できました。
+
+今回はGatsbyサイトに購入ボタンを表示しただけなので、次回は商品情報をStripeから取得して表示できるようにします。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/gatsby-stripe-advanced/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fgatsby-stripe-advanced%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>

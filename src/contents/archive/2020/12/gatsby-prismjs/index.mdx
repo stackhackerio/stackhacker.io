@@ -1,0 +1,94 @@
+---
+title: GatsbyサイトのコードをでPrismjsでハイライト
+date: "2020-02-16T15:39:03.284Z"
+description: "Gatsbyサイトのブログ内のコードをハイライトするためにPrismjsの設定をします。"
+published: false
+image: images/cover.png
+slug: /gatsby-prismjs
+---
+
+技術系のブログを書いていると、コードを多用することが多いので、Gatsbyでコードを表示するためにPrismjs設定をしたので、その手順をまとめておきます。
+
+## gatsby-remark-prismjsプラグイン
+
+GatsbyでMarkdown形式内のドキュメント内のコードをハイライトするのにgatsby-remark-prismjsプラグインを使用します。
+
+前回の記事で、gatsby-starter-blogをベースにしている場合は、すでにプラグインが含まれています。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/deploy-netlify/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fdeploy-netlify&key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+ゼロから構築する場合は、こちらを参考にしてプラグインをいれてください。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/packages/gatsby-remark-prismjs/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.gatsbyjs.org%2Fpackages%2Fgatsby-remark-prismjs%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div>
+
+## Prismjsのテーマを選択
+
+Prismjsにはテーマという概念があり、テーマを選ぶ事で簡単に見た目を変更できます。
+
+Gatsbyブログスターターを使った場合は、デフォルトのテーマが適用されているので、自分の好みにあわせて別のテーマできます。
+
+どのようなテーマがあるかは下記のサイトで確認できます。
+
+https://prismjs.com/
+
+テーマを適用するには、`gatsby-browser.js`にCSSのファイル名を追加します。
+
+Gatsbyブログスターターをベースにしている場合、デフォルトの`prismjs/themes/prism.css`がインポートされているので、例えば、TOMORROWテーマにしたい場合は下記に変更します。
+
+```js
+import "prismjs/themes/prism-tomorrow.css"
+```
+
+CSSのファイル名は、`node_modules/prismjs/theme/`以下にあるので、そちらを参照します。
+
+## 行数の表示
+
+さらに、行数を表示できるようにしていきます。
+
+以下のような記述をすると左に行数を表示できます。
+
+````
+```javascript{numberLines: true}
+import "prismjs/themes/prism-tomorrow.css"
+import "prismjs/plugins/line-numbers/prism-line-numbers.css"
+import "./src/styles/prismjs.css"
+```
+````
+
+まず、`gatsby-browser.js`に行数を表示するためのCSSをインポートします。
+
+```js
+import "prismjs/plugins/line-numbers/prism-line-numbers.css"
+```
+
+このままだと、コードと行数がずれてしまいます。
+
+![Line number](https://p50.f0.n0.cdn.getcloudapp.com/items/YEuAlB8E/Image+2020-02-18+at+11.27.45+AM.png?v=32c29fc72e98bb6e494ac257dd64e175)
+
+CSSを追加して、ずれを調整します。
+
+`src/styles/prismjs.css`というファイルを作成して、以下の内容で保存します。
+
+```
+.line-numbers .line-numbers-rows {
+  padding: 1em 0em 1em 0.5em;
+}
+```
+
+作成したCSSファイルをインポートするため、`gatsby-browser.js`に以下を追加します。
+
+```
+import "./src/styles/prismjs.css"
+```
+
+これで、ずれを解消できます。
+
+![Line display fixed](https://p50.f0.n0.cdn.getcloudapp.com/items/p9uKEX5P/Image+2020-02-18+at+11.30.53+AM.png?v=b998c1b1df7d7f903291b07b4469b70f)
+
+## おわりに
+
+今回は、GatsbyでPrismjsを使うための簡単な手順をご紹介しました。
+
+行番号を表示する以外にも、コードのハイライト、シェルプロンプトの表示などのカスタマイズもできるので詳細は以下を参照してください。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.gatsbyjs.org/packages/gatsby-remark-prismjs/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fwww.gatsbyjs.org%2Fpackages%2Fgatsby-remark-prismjs%2F&amp;key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div>

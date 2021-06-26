@@ -1,0 +1,91 @@
+---
+title: GatsbyサイトをNetlifyに自動デプロイ
+date: "2020-02-14T15:39:03.284Z"
+description: GatsbyサイトのコードをGitHubで管理して、リポジトリにpushしたらNetlifyに自動でデプロイできるようにします。
+published: false
+image: images/cover.png
+slug: /gatsby-github
+---
+
+前回の記事でGatsbyサイトをNetlifyに公開する手順をご紹介しました。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/deploy-netlify/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fdeploy-netlify&key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+
+その際には、`gatsby`コマンドを使用してビルドしたコンテンツを`netlify`コマンドでNetlifyにデプロイしました。
+
+今回は、GitHubでソースを管理して、Netlifyにデプロイするまでを自動化します。
+
+## GitHubの設定
+
+まず、GitHubに新しいリポジトリーを作成します。公式のドキュメントに従って作成します。
+
+https://help.github.com/ja/github/creating-cloning-and-archiving-repositories/creating-a-new-repository
+
+前回の記事で作成したプロジェクトを、上で作成したリポジトリをセットします。
+
+本ブログのリポジトリをセットアップするには以下のコマンドを実行します。
+
+```shell
+git remote add origin git@github.com:startuphacker/startuphacker.git
+git push -u origin master
+```
+
+## Netlifyの設定
+
+次にNetlifyの設定をします。Netlifyのダッシュボードから**Deploys**タブを選択します。
+
+![Deploy tab](https://p50.f0.n0.cdn.getcloudapp.com/items/12u19lZP/Image+2020-02-14+at+3.39.04+PM.png?v=d0e81b8a2fbbe7e1e209b042f146f92e)
+
+[Deploy setting]をクリックして、デプロイの設定画面を開きます。
+
+![Deploy settings](https://p50.f0.n0.cdn.getcloudapp.com/items/OAurmZnL/Image+2020-02-14+at+3.00.25+PM.png?v=c5e2d8c925908ec22e23ab756fed0954)
+
+Gitのリポジトリをリンクするために、[Link site to Git]ボタンをクリックします。
+
+![Link site to Git](https://p50.f0.n0.cdn.getcloudapp.com/items/12u19lvA/Image+2020-02-14+at+3.00.44+PM.png?v=e8b697faf66f617081137af8ed85ef89)
+
+先ほど作成したGitHubのリポジトリをリンクするので、[GitHub]を選択します。
+
+![GitHub](https://p50.f0.n0.cdn.getcloudapp.com/items/Apur6m9E/Image+2020-02-14+at+3.00.59+PM.png?v=ab4b5460e583879d21f8fa3180f45120)
+
+続いて、[Configure Netlify on GitHub]をクリックして、セットアップをします。
+
+![Configure Netlify on GitHub](https://p50.f0.n0.cdn.getcloudapp.com/items/xQugdo6x/Image+2020-02-14+at+3.01.21+PM.png?v=5ab1a2c6f1e0f67fbd00d31424f63b94)
+
+Netlifyをインストールするチームを選択します。
+
+![Install Netlify](https://p50.f0.n0.cdn.getcloudapp.com/items/GGuNZB4J/Image+2020-02-14+at+3.04.13+PM.png?v=1a5406beb54adfc2eceb9ffb4581e0fe)
+
+Netlifyに許可するリポジトリーを設定できます。所属するリポジトリーすべてを許可する場合には**All repositories**を選択します。特定のリポジトリーだけ許可したい場合は、**Select repositories**を選択して、許可するリポジトリーを選択します。
+
+ここでは、特定のリポジトリーを選択して、**Install**をクリックします。
+
+![Install](https://p50.f0.n0.cdn.getcloudapp.com/items/wbum1x8p/Image+2020-02-14+at+3.04.51+PM.png?v=ea4f6ab68e3ba1676d9b7f74821ff9d4)
+
+これで、Netlifyサイトとリンクするリポジトリーを選択して、デプロイの設定をします。
+
+![Select repository](https://p50.f0.n0.cdn.getcloudapp.com/items/mXuqRWJ6/Image+2020-02-14+at+3.06.30+PM.png?v=ac8787a8194b0f7c9d886f6500ffbd69)
+
+デプロイするブランチ（Branch to deploy）にはデフォルトのままで**master**にします。ビルドのためのコマンド（Build command）には**gatsby build**を入力し、公開するディレクトリー（Publish directory）には**public/**を入力します。
+
+それぞれの項目を入力したら**Deploy site**をクリックして、デプロイを開始します。
+
+![Deploy site](https://p50.f0.n0.cdn.getcloudapp.com/items/X6uzWv88/Image+2020-02-14+at+3.06.45+PM.png?v=eb0bff9fa7e9587568605ad99818a443)
+
+デプロイが開始されるので、ダッシュボードを開いて、**Production deploys**の欄を参照すると、デプロイが開始しているのを確認できます。
+
+クリックしてデプロイの詳細を開きます。
+
+![Production deploys](https://p50.f0.n0.cdn.getcloudapp.com/items/jkuKrpvo/Image+2020-02-14+at+3.08.22+PM.png?v=9629c75a474d5ba97e99a0f246c2467c)
+
+**Deploy log**が流れていき、デプロイの状況を確認できます。
+
+![Deploy log](https://p50.f0.n0.cdn.getcloudapp.com/items/nOuNE7K1/Image+2020-02-14+at+3.19.13+PM.png?v=11f01c68802b60539bb28aa8d5672cd7)
+
+以上で設定が完了したので、次回からは、masterにコミットするか、Pull Requestをmasterにマージすることで、自動でデプロイできます。
+
+## おわりに
+
+サイトの変更内容をプルリクエストであげて、内容を確認して、大丈夫であればマージし、変更内容を公開できます。
+
+サイトの運用もいわゆる開発のワークフローと同じように管理できるのはすごくで便利です。また、プレビュー用のサイトも自動でデプロイしてくれるので、公開する前に簡単に表示を確認できるのもいいですね。

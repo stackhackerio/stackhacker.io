@@ -1,0 +1,86 @@
+---
+title: GatsbyでGoogleフォントを設定
+date: "2020-02-13T22:12:03.284Z"
+description: "Gatsbyで構築したサイトをTypography.jsで好みのフォントにします。"
+published: false
+image: images/cover.png
+slug: /gatsby-google-font
+---
+
+前回の記事でブログを公開するまでの手順を紹介しました。
+
+<div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://startuphacker.net/deploy-netlify/" data-iframely-url="//cdn.iframe.ly/api/iframe?url=https%3A%2F%2Fstartuphacker.net%2Fdeploy-netlify&key=c6d07ad7d9471df8b16e593030a23e7e" target="_blank_"></a></div></div>
+
+Gatsbyブログスターターのデフォルトのものから、個人的な好みのフォントに調整します。
+
+## Typography.js
+
+GatsbyでTypography.jsというライブラリーも開発しており、今回使用したスターターにすでにはいっているので、これをベースに変更していきます。
+
+Typography.jsではテーマという概念があるので、それを使えば、一からCSSを組まなくてもきれいなデザインができます。
+
+まず、下記でお気に入りのテーマを探します。
+
+http://kyleamathews.github.io/typography.js/
+
+ここでは、Occean Beachというテーマを使っていきます。
+
+Gatsbyブログスターターでは、すでにTypographyプラグインはすでにはいっているので、テーマだけインストールします。
+
+```bash
+npm install --save typography-theme-ocean-beach
+```
+
+GatsbyブログスターターのデフォルトだとWordpress2016というテーマを使うようになっているので、インストールしたテーマに置き換えます。
+
+`src/utils/typography.js`を下記の通りにします。
+
+```js
+import Typography from "typography"
+import theme from 'typography-theme-ocean-beach'
+
+const typography = new Typography(theme)
+
+// Hot reload typography in development.
+if (process.env.NODE_ENV !== `production`) {
+  typography.injectStyles()
+}
+
+export default typography
+export const rhythm = typography.rhythm
+export const scale = typography.scale
+```
+
+さらに、GoogleフォントのNoto Sansを使うようにします。
+
+```js {4-10}
+import Typography from "typography"
+import theme from 'typography-theme-ocean-beach'
+
+theme.googleFonts.push(
+  {
+    name: 'Noto+Sans+JP',
+    styles: ['400'],
+  }
+)
+theme.bodyFontFamily = ['Noto Sans JP', 'Roboto', 'serif']
+
+const typography = new Typography(theme)
+
+// Hot reload typography in development.
+if (process.env.NODE_ENV !== `production`) {
+  typography.injectStyles()
+}
+
+export default typography
+export const rhythm = typography.rhythm
+export const scale = typography.scale
+```
+
+## おわりに
+
+フォントはサイトの雰囲気を大きく左右するので、結構CSSを頑張らなくてはいけないところなのですが、Typography.jsを使えば、CSSを一切いじらないでいい感じにできるので便利です。
+
+## 参考
+
+* [freks blog | Gatsbyでブログを作った](https://blog.freks.jp/start-gatsby-blog/)
