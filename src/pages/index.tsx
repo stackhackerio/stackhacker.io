@@ -1,19 +1,10 @@
-import Link from 'next/link'
-
 import Layout from '@/components/layout'
+import Top from '../components/top'
 
-export default function Index({ posts }) {
+export default function Index() {
   return (
     <Layout>
-      <h1>Home Page</h1>
-      <ul>
-        <li>
-          <Link href="/posts">Posts</Link>
-        </li>
-        <li>
-          <Link href="/starters">Starters</Link>
-        </li>
-      </ul>
+      <Top />
     </Layout>
   )
 }

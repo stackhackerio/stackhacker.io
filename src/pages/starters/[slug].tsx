@@ -6,9 +6,9 @@ import { serialize } from 'next-mdx-remote/serialize'
 import remarkUnwrapImages from 'remark-unwrap-images'
 
 import Layout from '@/components/layout'
-import CustomLink from '@/components/custom-link'
-import RemarkImg from '@/components/remark-img'
-import Code from '@/components/code'
+import CustomLink from '@/components/mdx/custom-link'
+import RemarkImg from '@/components/mdx/remark-img'
+import Code from '@/components/mdx/code'
 import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
 
 const components = ({ slug }: { slug: string }) => ({
