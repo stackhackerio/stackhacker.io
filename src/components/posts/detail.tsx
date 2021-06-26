@@ -25,7 +25,7 @@ const components = ({ slug }: { slug: string }) => ({
   },
 })
 
-export default function Body({ slug, source, frontmatter }) {
+export default function Detail({ slug, source, frontmatter }) {
   const { title, date, readingTime } = frontmatter
 
   return (

@@ -5,7 +5,7 @@ import Layout from '@/components/layout'
 import Detail from '@/components/posts/detail'
 import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
-export default function PostPage({ source, frontmatter, slug }) {
+export default function Post({ source, frontmatter, slug }) {
   return (
     <Layout>
       <Detail slug={slug} source={source} frontmatter={frontmatter} />
