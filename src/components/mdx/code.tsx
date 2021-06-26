@@ -39,7 +39,7 @@ export const Code: FC<Props> = ({ codeString, language, ...props }) => {
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <>
           <pre
-            className="font-code my-2 p-2 rounded overflow-x-auto relative"
+            className="font-code rounded overflow-x-auto relative"
             style={style}
           >
             <button
@@ -58,6 +58,7 @@ export const Code: FC<Props> = ({ codeString, language, ...props }) => {
             </button>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({ line, key: i })
+              lineProps.className = `${lineProps.className} leading-5`
               if (shouldHighlightLine && shouldHighlightLine(i)) {
                 lineProps.className = `${lineProps.className} highlight-line`
               }
