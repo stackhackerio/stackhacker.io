@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-const NextImg = ({ src, alt, slug, ...otherProps }) => {
-  const i = require(`../contents/posts/${slug}/${src}`).default
+const NextImg = ({ src, alt, slug, content = 'posts' }) => {
+  const i = require(`../contents/${content}/${slug}/${src}`).default
 
   return (
     <div
