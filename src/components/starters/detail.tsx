@@ -2,9 +2,9 @@ import Title from './title'
 import Preview from './preview'
 import Content from './content'
 
-export default function Detail({ slug, source, frontmatter }) {
-  const { title, description, github, demo, tags, offerings, preview } =
-    frontmatter
+export default function Detail({ starter }) {
+  const { source, data, slug } = starter
+  const { title, description, github, demo, tags, offerings, preview } = data
 
   return (
     <>

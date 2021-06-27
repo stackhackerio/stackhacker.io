@@ -1,28 +1,5 @@
-import { MDXRemote } from 'next-mdx-remote'
-
-import CustomLink from '@/components/mdx/custom-link'
-import RemarkImg from '@/components/mdx/remark-img'
-import Code from '@/components/mdx/code'
+import Mdx from '@/components/mdx'
 import Summary from './summary'
-
-const components = ({ slug }: { slug: string }) => ({
-  a: CustomLink,
-  img: ({ src, alt }) => {
-    const i = require(`@/contents/starters/${slug}/${src}`).default
-    return RemarkImg({ src: i, alt })
-  },
-  pre: ({ children: { props } }) => {
-    const { className, children, mdxType } = props
-    const language = className && className.replace(`language-`, ``)
-    const codeString = children.trim()
-
-    if (mdxType === `code`) {
-      return <Code codeString={codeString} language={language} {...props} />
-    } else {
-      return <span>{props.children}</span>
-    }
-  },
-})
 
 type Props = {
   source: any
@@ -45,7 +22,7 @@ export default function Content({ source, slug, tags, offerings }: Props) {
           </aside>
           <div className="border-t border-gray-200 space-y-4 mt-4">
             <div className="prose prose-lg text-gray-500 mt-6 prose-quoteless">
-              <MDXRemote {...source} components={components({ slug })} />
+              <Mdx source={source} content={'starters'} slug={slug} />
             </div>
           </div>
         </div>

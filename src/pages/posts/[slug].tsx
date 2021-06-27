@@ -5,30 +5,19 @@ import Layout from '@/components/layout'
 import Detail from '@/components/posts/detail'
 import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
-export default function Post({ source, frontmatter, slug }) {
+export default function Post({ post }) {
   return (
     <Layout>
-      <Detail slug={slug} source={source} frontmatter={frontmatter} />
+      <Detail post={post} />
     </Layout>
   )
 }
 
 export const getStaticProps = async ({ params }) => {
-  const { content, data } = getPost(params.slug)
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkUnwrapImages],
-      rehypePlugins: [],
-    },
-    scope: data,
-  })
+  const post = await getPost(params.slug)
 
   return {
-    props: {
-      slug: params.slug,
-      source: mdxSource,
-      frontmatter: data,
-    },
+    props: { post },
   }
 }
 

@@ -1,34 +1,20 @@
-import { serialize } from 'next-mdx-remote/serialize'
-import remarkUnwrapImages from 'remark-unwrap-images'
-
 import Layout from '@/components/layout'
 import Detail from '@/components/starters/detail'
 import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
 
-export default function Starter({ source, frontmatter, slug }) {
+export default function Starter({ starter }) {
   return (
     <Layout>
-      <Detail slug={slug} source={source} frontmatter={frontmatter} />
+      <Detail starter={starter} />
     </Layout>
   )
 }
 
 export const getStaticProps = async ({ params }) => {
-  const { content, data } = getStarter(params.slug)
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkUnwrapImages],
-      rehypePlugins: [],
-    },
-    scope: data,
-  })
+  const starter = await getStarter(params.slug)
 
   return {
-    props: {
-      slug: params.slug,
-      source: mdxSource,
-      frontmatter: data,
-    },
+    props: { starter },
   }
 }
 
