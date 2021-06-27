@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
 import rangeParser from 'parse-numeric-range'
+
 import { copyToClipboard } from '@/utils/copy-to-clipboard'
+import Copy from '@/components/icons/copy'
 
 const calculateLinesToHighlight = (meta: string) => {
   const RE = /{([\d,-]+)}/
@@ -16,13 +17,24 @@ const calculateLinesToHighlight = (meta: string) => {
   }
 }
 
+const highlightStyle = `
+  .highlight-line {
+    background-color: rgb(53, 59, 69);
+    display: block;
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: 0.75em;
+    border-left: 0.3em solid #f99;
+  }
+`
 type Props = {
   codeString: string
   language: Language
   metastring?: string
 }
 
-export const Code: FC<Props> = ({ codeString, language, ...props }) => {
+export default function Code({ codeString, language, ...props }: Props) {
   const handleClick = () => {
     copyToClipboard(codeString)
   }
@@ -38,6 +50,7 @@ export const Code: FC<Props> = ({ codeString, language, ...props }) => {
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <>
+          <style jsx>{highlightStyle}</style>
           <pre
             className="font-code rounded overflow-x-auto relative"
             style={style}
@@ -46,15 +59,7 @@ export const Code: FC<Props> = ({ codeString, language, ...props }) => {
               className="absolute right-2 p-1 rounded bg-gray-600 hover:bg-gray-500 focus:ring-2 focus:ring-offset-2"
               onClick={handleClick}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-              </svg>
+              <Copy />
             </button>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({ line, key: i })
@@ -77,5 +82,3 @@ export const Code: FC<Props> = ({ codeString, language, ...props }) => {
     </Highlight>
   )
 }
-
-export default Code
