@@ -1,8 +1,15 @@
+import { NextSeo } from 'next-seo'
+
 import Layout from '@/components/layout'
+
+const config = {
+  title: 'About',
+}
 
 export default function About() {
   return (
     <Layout>
+      <NextSeo {...config} />
       <div className="relative py-16 bg-white overflow-hidden">
         <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
           <div

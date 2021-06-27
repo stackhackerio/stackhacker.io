@@ -1,8 +1,15 @@
+import { NextSeo } from 'next-seo'
+
 import Layout from '@/components/layout'
+
+const config = {
+  title: 'Contact',
+}
 
 export default function Contact() {
   return (
     <Layout>
+      <NextSeo {...config} />
       <div className="bg-white py-16 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
         <div className="relative max-w-xl mx-auto">
           <svg

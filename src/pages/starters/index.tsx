@@ -1,10 +1,17 @@
+import { NextSeo } from 'next-seo'
+
 import Layout from '@/components/layout'
 import StarterIndex from '@/components/starters'
 import { fetchStarters } from '@/utils/mdx/starters'
 
+const config = {
+  title: 'Starters',
+}
+
 export default function Index({ starters }) {
   return (
     <Layout>
+      <NextSeo {...config} />
       <StarterIndex starters={starters} />
     </Layout>
   )
