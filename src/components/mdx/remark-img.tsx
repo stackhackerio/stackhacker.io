@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-const RemarkImg = ({ src, alt }) => {
+export default function RemarkImg({ src, alt }) {
   return (
     <div
       style={{
@@ -23,5 +23,3 @@ const RemarkImg = ({ src, alt }) => {
     </div>
   )
 }
-
-export default RemarkImg

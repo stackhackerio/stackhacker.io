@@ -1,14 +1,14 @@
 import { MDXRemote } from 'next-mdx-remote'
 
-import Summary from './summary'
 import CustomLink from '@/components/mdx/custom-link'
 import RemarkImg from '@/components/mdx/remark-img'
 import Code from '@/components/mdx/code'
+import Summary from './summary'
 
 const components = ({ slug }: { slug: string }) => ({
   a: CustomLink,
   img: ({ src, alt }) => {
-    const i = require(`../../contents/starters/${slug}/${src}`).default
+    const i = require(`@/contents/starters/${slug}/${src}`).default
     return RemarkImg({ src: i, alt })
   },
   pre: ({ children: { props } }) => {
