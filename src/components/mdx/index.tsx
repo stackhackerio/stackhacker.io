@@ -8,8 +8,13 @@ import InlineCode from './inline-code'
 const components = ({ content, slug }: { content: string; slug: string }) => ({
   a: CustomLink,
   img: ({ src, alt }) => {
-    const i = require(`../../contents/${content}/${slug}/${src}`).default
-    return RemarkImg({ src: i, alt })
+    if (/^https:\/\//.test(src)) {
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img src={src} alt={alt} />
+    } else {
+      const i = require(`../../contents/${content}/${slug}/${src}`).default
+      return RemarkImg({ src: i, alt })
+    }
   },
   pre: function remarkCode({ children: { props } }) {
     const { className, children, mdxType } = props
