@@ -126,7 +126,7 @@ Vercel でデプロイすると、ローカルマシンにクローンできる�
 
 次に、[Vercel CLI](https://vercel.com/download)を使ってプロジェクトをリンクします。
 
-```bash
+```bash {hiddenLineNum}
 vercel login
 vercel link
 ```
@@ -135,7 +135,7 @@ vercel link
 
 Vercel CLIを使って、開発用のenv varsをダウンロードします。
 
-```bash
+```bash {hiddenLineNum}
 vercel env pull .env.local
 ```
 
@@ -149,7 +149,7 @@ vercel env pull .env.local
 
 次に webhook の転送を開始します。
 
-```bash
+```bash {hiddenLineNum}
 stripe listen --forward-to=localhost:3000/api/webhooks
 ```
 
@@ -157,7 +157,7 @@ CLIでは、webhookのシークレット（例えば、`whsec_***`）をコン�
 
 ### 依存関係のインストールとNext.jsクライアントの実行
 
-```bash
+```bash {hiddenLineNum}
 npm install
 npm run dev
 # または
@@ -169,6 +169,6 @@ yarn dev
 
 下記のコマンドでサンプルの価格を登録できます。
 
-```
+```bash {hiddenLineNum}
 stripe fixtures fixtures/stripe.json
 ```

@@ -1,6 +1,7 @@
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
 import rangeParser from 'parse-numeric-range'
+import css from 'styled-jsx/css'
 
 import { copyToClipboard } from '@/utils/copy-to-clipboard'
 import Copy from '@/components/icons/copy'
@@ -17,7 +18,12 @@ const calculateLinesToHighlight = (meta: string) => {
   }
 }
 
-const highlightStyle = `
+const hiddenLineNum = (meta: string) => {
+  const RE = /{hiddenLineNum}/
+  return RE.test(meta)
+}
+
+const styles = css`
   .highlight-line {
     background-color: rgb(53, 59, 69);
     display: block;
@@ -50,7 +56,7 @@ export default function Code({ codeString, language, ...props }: Props) {
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <>
-          <style jsx>{highlightStyle}</style>
+          <style jsx>{styles}</style>
           <pre
             className="font-code rounded overflow-x-auto relative"
             style={style}
@@ -69,7 +75,9 @@ export default function Code({ codeString, language, ...props }: Props) {
               }
               return (
                 <div key={i} {...lineProps}>
-                  <span className="inline-block w-8 opacity-50">{i + 1}</span>
+                  {!hiddenLineNum(props.metastring) && (
+                    <span className="inline-block w-8 opacity-50">{i + 1}</span>
+                  )}
                   {line.map((token, key) => (
                     <span key={key} {...getTokenProps({ token, key })} />
                   ))}

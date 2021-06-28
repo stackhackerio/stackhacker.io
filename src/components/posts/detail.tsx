@@ -1,12 +1,6 @@
-import { NextSeo } from 'next-seo'
-
 import Author from '@/components/ui/author'
 import Mdx from '@/components/mdx'
 import Background from './background'
-
-const config = {
-  title: 'hoge',
-}
 
 export default function Detail({ post }) {
   const { source, slug, data } = post
@@ -14,7 +8,6 @@ export default function Detail({ post }) {
 
   return (
     <>
-      <NextSeo {...config} />
       <div className="relative py-16 bg-white overflow-hidden">
         <Background />
         <div className="relative px-4 sm:px-6 lg:px-8">
