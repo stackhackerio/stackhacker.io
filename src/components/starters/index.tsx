@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import useDimensions from 'react-cool-dimensions'
 
 const requireCover = (starter) => {
   if (!starter.slug || !starter.data.cover) throw new Error()
@@ -9,9 +8,6 @@ const requireCover = (starter) => {
 }
 
 export default function Index({ starters }) {
-  const { observe, width, height } = useDimensions<HTMLDivElement | null>()
-
-  console.log(width)
   return (
     <div className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
       <div className="relative">
@@ -32,7 +28,7 @@ export default function Index({ starters }) {
               key={starter.slug}
               className="flex flex-col rounded-lg shadow-lg overflow-hidden"
             >
-              <div className="flex-shrink-0" ref={observe}>
+              <div className="flex-shrink-0">
                 <Image
                   className="object-cover"
                   src={requireCover(starter)}

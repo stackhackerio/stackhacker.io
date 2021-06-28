@@ -1,5 +1,5 @@
 const config = {
-  titleTemplate: 'stackhaker | %s',
+  titleTemplate: '%s | stackhaker',
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
