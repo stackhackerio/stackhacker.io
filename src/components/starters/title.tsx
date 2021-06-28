@@ -8,7 +8,7 @@ type Props = {
 export default function Title({ title, description, demo, github }: Props) {
   return (
     <div className="pt-10 sm:pt-14 bg-gray-50">
-      <div className="max-w-screen-xl mx-auto pb-16 px-4 text-center sm:pb-18 sm:px-6 lg:px-8 lg:flex lg:justify-between lg:items-center lg:text-left">
+      <div className="max-w-screen-xl mx-auto pb-12 px-4 text-center sm:pb-18 sm:px-6 lg:px-8 lg:flex lg:justify-between lg:items-center lg:text-left">
         <div className="mt-6 sm:max-w-2xl">
           <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
             {title}

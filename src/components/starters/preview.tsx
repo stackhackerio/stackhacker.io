@@ -13,10 +13,10 @@ export default function Preview({ slug, src }) {
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6">
           <div className="relative rounded-lg shadow-lg w-full h-auto object-cover object-top">
             <Image
-              width={1276}
-              height={1134}
-              layout="intrinsic"
-              objectFit="contain"
+              width={1280}
+              height={790}
+              layout="responsive"
+              objectFit="cover"
               alt="プレビュー"
               src={i}
             />
