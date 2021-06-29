@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export default function Preview({ slug, src }) {
+export default function Preview({ slug, src }: { slug: string; src: string }) {
   const i = require(`@/contents/starters/${slug}/${src}`).default
 
   return (

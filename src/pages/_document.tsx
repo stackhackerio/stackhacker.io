@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { GA_ID } from '@/lib/ga'
 
 export default class MyDocument extends Document {
   render() {
@@ -8,7 +9,7 @@ export default class MyDocument extends Document {
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           />
           <script
             dangerouslySetInnerHTML={{
@@ -16,7 +17,7 @@ export default class MyDocument extends Document {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+            gtag('config', '${GA_ID}', {
               page_path: window.location.pathname,
             });
               `,

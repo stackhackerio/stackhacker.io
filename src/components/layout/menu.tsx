@@ -1,4 +1,6 @@
 import { useContext } from 'react'
+import Link from 'next/link'
+
 import { MenuMobileStatus } from './header'
 
 export default function Menu() {
@@ -12,10 +14,16 @@ export default function Menu() {
       >
         <div className="flex items-center flex-1">
           <div className="flex items-center justify-between w-full md:w-auto">
-            <a href="/">
-              <span className="sr-only">stackhacker</span>
-              <img className="h-8 w-auto sm:h-10" src="/logo.svg" alt="Logo" />
-            </a>
+            <Link href="/">
+              <a>
+                <span className="sr-only">stackhacker</span>
+                <img
+                  className="h-8 w-auto sm:h-10"
+                  src="/logo.svg"
+                  alt="Logo"
+                />
+              </a>
+            </Link>
             <div className="-mr-2 flex items-center md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -44,39 +52,34 @@ export default function Menu() {
             </div>
           </div>
           <div className="hidden space-x-8 md:flex md:ml-10">
-            <a
-              href="/"
-              className="text-base font-medium text-white hover:text-gray-300"
-            >
-              ホーム
-            </a>
-            <a
-              href="/starters"
-              className="text-base font-medium text-white hover:text-gray-300"
-            >
-              スターター
-            </a>
-            <a
-              href="/posts"
-              className="text-base font-medium text-white hover:text-gray-300"
-            >
-              ブログ
-            </a>
-            <a
-              href="/about"
-              className="text-base font-medium text-white hover:text-gray-300"
-            >
-              このサイトについて
-            </a>
+            <Link href="/">
+              <a className="text-base font-medium text-white hover:text-gray-300">
+                ホーム
+              </a>
+            </Link>
+            <Link href="/starters">
+              <a className="text-base font-medium text-white hover:text-gray-300">
+                スターター
+              </a>
+            </Link>
+            <Link href="/posts">
+              <a className="text-base font-medium text-white hover:text-gray-300">
+                ブログ
+              </a>
+            </Link>
+            <Link href="/about">
+              <a className="text-base font-medium text-white hover:text-gray-300">
+                このサイトについて
+              </a>
+            </Link>
           </div>
         </div>
         <div className="hidden md:flex md:items-center md:space-x-6">
-          <a
-            href="/contact"
-            className="inline-flex items-center px-4 py-2 text-base font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
-          >
-            コンタクト
-          </a>
+          <Link href="/contact">
+            <a className="inline-flex items-center px-4 py-2 text-base font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200">
+              コンタクト
+            </a>
+          </Link>
         </div>
       </nav>
     </div>

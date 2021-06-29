@@ -4,11 +4,17 @@ import Layout from '@/components/layout'
 import PostIndex from '@/components/posts'
 import { fetchPosts } from '@/utils/mdx/posts'
 
+import type { Post } from '@/utils/mdx/posts'
+
 const config = {
   title: 'Posts',
 }
 
-export default function Index({ posts }) {
+interface Props {
+  posts: Post[]
+}
+
+export default function Index({ posts }: Props) {
   return (
     <Layout>
       <NextSeo {...config} />

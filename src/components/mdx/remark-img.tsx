@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function RemarkImg({ src, alt }) {
+export default function RemarkImg({ src, alt }: { src: string; alt: string }) {
   return (
     <div
       style={{

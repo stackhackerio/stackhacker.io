@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Hero() {
   return (
     <div className="relative overflow-hidden">
@@ -18,12 +20,11 @@ export default function Hero() {
                 <div className="mt-10 sm:mt-12">
                   <div className="sm:flex">
                     <div className="mt-3 sm:mt-0 sm:ml-3 text-center">
-                      <a
-                        href="/about"
-                        className="block w-full py-3 px-4 rounded-md shadow bg-gray-500 text-white font-medium hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-gray-900"
-                      >
-                        もっと詳しく
-                      </a>
+                      <Link href="/about">
+                        <a className="block w-full py-3 px-4 rounded-md shadow bg-gray-500 text-white font-medium hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-gray-900">
+                          もっと詳しく
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

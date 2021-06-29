@@ -54,7 +54,7 @@ export default function Code({ codeString, language, ...props }: Props) {
       language={language}
       theme={theme}
     >
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      {({ style, tokens, getLineProps, getTokenProps }) => (
         <>
           <style jsx>{styles}</style>
           <pre
@@ -75,7 +75,7 @@ export default function Code({ codeString, language, ...props }: Props) {
               }
               return (
                 <div key={i} {...lineProps}>
-                  {!hiddenLineNum(props.metastring) && (
+                  {props.metastring && !hiddenLineNum(props.metastring) && (
                     <span className="inline-block w-8 opacity-50">{i + 1}</span>
                   )}
                   {line.map((token, key) => (

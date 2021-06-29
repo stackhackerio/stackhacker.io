@@ -1,8 +1,13 @@
 import Title from './title'
 import Preview from './preview'
 import Content from './content'
+import type { Starter } from '@/utils/mdx/starters'
 
-export default function Detail({ starter }) {
+interface Props {
+  starter: Starter
+}
+
+export default function Detail({ starter }: Props) {
   const { source, data, slug } = starter
   const { title, description, github, demo, tags, offerings, preview } = data
 

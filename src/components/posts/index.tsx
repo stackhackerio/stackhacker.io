@@ -2,13 +2,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import Author from '../ui/author'
+import type { Post } from '@/utils/mdx/posts'
 
-const requireCover = (post) => {
+const requireCover = (post: Post) => {
   if (!post.slug || !post.data.cover) throw new Error()
   return require(`@/contents/posts/${post.slug}/${post.data.cover}`).default
 }
 
-export default function Index({ posts }) {
+interface Props {
+  posts: Post[]
+}
+
+export default function Index({ posts }: Props) {
   return (
     <div className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
       <div className="relative">

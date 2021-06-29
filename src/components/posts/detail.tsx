@@ -1,8 +1,13 @@
 import Author from '@/components/ui/author'
 import Mdx from '@/components/mdx'
 import Background from './background'
+import type { Post } from '@/utils/mdx/posts'
 
-export default function Detail({ post }) {
+interface Props {
+  post: Post
+}
+
+export default function Detail({ post }: Props) {
   const { source, slug, data } = post
   const { title, date, readingTime } = data
 
@@ -22,7 +27,7 @@ export default function Detail({ post }) {
             </div>
           </div>
           <div className="prose prose-lg text-gray-500 mx-auto mb-6">
-            <Mdx source={source} content={'posts'} slug={slug} />
+            <Mdx source={source!} content={'posts'} slug={slug} />
           </div>
         </div>
       </div>

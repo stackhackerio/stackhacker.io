@@ -1,13 +1,19 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-const requireCover = (starter) => {
+import type { Starter } from '@/utils/mdx/starters'
+
+const requireCover = (starter: Starter) => {
   if (!starter.slug || !starter.data.cover) throw new Error()
   return require(`@/contents/starters/${starter.slug}/${starter.data.cover}`)
     .default
 }
 
-export default function Index({ starters }) {
+interface Props {
+  starters: Starter[]
+}
+
+export default function Index({ starters }: Props) {
   return (
     <div className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
       <div className="relative">

@@ -6,7 +6,9 @@ import Layout from '@/components/layout'
 import Detail from '@/components/posts/detail'
 import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
-const coverUrl = ({ slug, coverFull }) => {
+import type { Post } from '@/utils/mdx/posts'
+
+const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
   const {
     openGraph: { url },
   } = defaultConfig
@@ -15,7 +17,11 @@ const coverUrl = ({ slug, coverFull }) => {
   return path.join(url, i)
 }
 
-export default function Post({ post }) {
+interface Props {
+  post: Post
+}
+
+export default function Post({ post }: Props) {
   const {
     slug,
     data: { title, description, coverFull },
@@ -41,7 +47,11 @@ export default function Post({ post }) {
   )
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async ({
+  params,
+}: {
+  params: { slug: string }
+}) => {
   const post = await getPost(params.slug)
 
   return {

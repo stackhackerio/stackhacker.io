@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Transition } from '@headlessui/react'
 import { useContext } from 'react'
 import { MenuMobileStatus } from './header'
@@ -52,39 +53,34 @@ export default function MenuMobil() {
             </div>
             <div className="py-6 px-5 space-y-6">
               <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a
-                  href="/"
-                  className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150"
-                >
-                  ホーム
-                </a>
-                <a
-                  href="/starters"
-                  className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150"
-                >
-                  スターター
-                </a>
-                <a
-                  href="/posts"
-                  className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150"
-                >
-                  ブログ
-                </a>
-                <a
-                  href="/about"
-                  className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150"
-                >
-                  このサイトについて
-                </a>
+                <Link href="/">
+                  <a className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150">
+                    ホーム
+                  </a>
+                </Link>
+                <Link href="/starters">
+                  <a className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150">
+                    スターター
+                  </a>
+                </Link>
+                <Link href="/posts">
+                  <a className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150">
+                    ブログ
+                  </a>
+                </Link>
+                <Link href="/about">
+                  <a className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150">
+                    このサイトについて
+                  </a>
+                </Link>
               </div>
               <div className="space-y-6">
                 <span className="w-full flex rounded-md shadow-sm">
-                  <a
-                    href="/contact"
-                    className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700 transition ease-in-out duration-150"
-                  >
-                    コンタクト
-                  </a>
+                  <Link href="/contact">
+                    <a className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700 transition ease-in-out duration-150">
+                      コンタクト
+                    </a>
+                  </Link>
                 </span>
               </div>
             </div>

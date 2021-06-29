@@ -1,6 +1,11 @@
 import Link from 'next/link'
 
-export default function CustomLink({ as, href, ...otherProps }) {
+interface Props {
+  as: string
+  href: string
+}
+
+export default function CustomLink({ as, href, ...otherProps }: Props) {
   return (
     <Link as={as} href={href}>
       <a target="_blank" {...otherProps} />

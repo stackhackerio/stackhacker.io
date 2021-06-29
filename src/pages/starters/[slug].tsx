@@ -6,7 +6,9 @@ import Layout from '@/components/layout'
 import Detail from '@/components/starters/detail'
 import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
 
-const coverUrl = ({ slug, coverFull }) => {
+import type { Starter } from '@/utils/mdx/starters'
+
+const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
   const {
     openGraph: { url },
   } = defaultConfig
@@ -15,7 +17,11 @@ const coverUrl = ({ slug, coverFull }) => {
   return path.join(url, i)
 }
 
-export default function Starter({ starter }) {
+interface Props {
+  starter: Starter
+}
+
+export default function Starter({ starter }: Props) {
   const {
     slug,
     data: { title, description, coverFull },
@@ -41,7 +47,11 @@ export default function Starter({ starter }) {
   )
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async ({
+  params,
+}: {
+  params: { slug: string }
+}) => {
   const starter = await getStarter(params.slug)
 
   return {
