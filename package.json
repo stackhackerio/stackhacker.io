@@ -13,6 +13,7 @@
     "@fontsource/inter": "^4.4.5",
     "@fontsource/noto-sans-jp": "^4.4.5",
     "@fontsource/source-code-pro": "^4.4.5",
+    "@formspree/react": "^2.2.3",
     "@types/parse-numeric-range": "0.0.1",
     "@types/styled-jsx": "^2.2.8",
     "gray-matter": "^4.0.3",
