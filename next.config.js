@@ -15,7 +15,10 @@ module.exports = {
         }
       ]
     })
-    config.module.noParse = /\.mdx$/
+    config.module.rules.push({
+      test: /\.mdx$/,
+      loader: 'ignore-loader',
+    })
 
     return config
   }

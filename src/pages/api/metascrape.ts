@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
 import absoluteUrl from 'next-absolute-url'
 
 const metascraper = require('metascraper')([
@@ -12,7 +13,7 @@ const metascraper = require('metascraper')([
   require('metascraper-title')(),
   require('metascraper-url')(),
 ])
-const got = require('got')
+import got from 'got'
 
 const metascrape = async (req: NextApiRequest, res: NextApiResponse) => {
   const { origin } = absoluteUrl(req)
@@ -21,9 +22,11 @@ const metascrape = async (req: NextApiRequest, res: NextApiResponse) => {
     query: { href },
   } = req
 
-  const h = /^http/.test(href) ? href : origin + href
+  const h: string | string[] = /^http/.test(href as string)
+    ? href
+    : origin + href
 
-  const { body: html, url } = await got(h)
+  const { body: html, url } = await got(h as string)
   const metadata = await metascraper({ html, url })
 
   res.statusCode = 200

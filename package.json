@@ -18,6 +18,7 @@
     "@types/styled-jsx": "^2.2.8",
     "got": "^11.8.2",
     "gray-matter": "^4.0.3",
+    "ignore-loader": "^0.1.2",
     "metascraper": "^5.22.5",
     "metascraper-author": "^5.22.5",
     "metascraper-clearbit": "^5.22.5",
