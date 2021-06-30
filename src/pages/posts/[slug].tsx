@@ -1,5 +1,4 @@
 import { NextSeo } from 'next-seo'
-import path from 'path'
 
 import defaultConfig from '../../../next-seo.config'
 import Layout from '@/components/layout'
@@ -8,13 +7,17 @@ import { getPost, fetchSlugs } from '@/utils/mdx/posts'
 
 import type { Post } from '@/utils/mdx/posts'
 
-const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
-  const {
-    openGraph: { url },
-  } = defaultConfig
+const {
+  openGraph: { url },
+} = defaultConfig
 
+const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
   const i = require(`@/contents/posts/${slug}/${coverFull}`).default
-  return path.join(url, i)
+  return `${url}${i}`
+}
+
+const ogUrl = ({ slug }: { slug: string }) => {
+  return `${url}/posts/${slug}`
 }
 
 interface Props {
@@ -30,6 +33,7 @@ export default function PostPage({ post }: Props) {
   const config = {
     title: title,
     openGraph: {
+      url: ogUrl({ slug }),
       description: description,
       images: [
         {

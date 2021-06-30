@@ -1,5 +1,4 @@
 import { NextSeo } from 'next-seo'
-import path from 'path'
 
 import defaultConfig from '../../../next-seo.config'
 import Layout from '@/components/layout'
@@ -8,13 +7,17 @@ import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
 
 import type { Starter } from '@/utils/mdx/starters'
 
-const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
-  const {
-    openGraph: { url },
-  } = defaultConfig
+const {
+  openGraph: { url },
+} = defaultConfig
 
+const coverUrl = ({ slug, coverFull }: { slug: string; coverFull: string }) => {
   const i = require(`@/contents/starters/${slug}/${coverFull}`).default
-  return path.join(url, i)
+  return `${url}${i}`
+}
+
+const ogUrl = ({ slug }: { slug: string }) => {
+  return `${url}/starters/${slug}`
 }
 
 interface Props {
@@ -30,6 +33,7 @@ export default function StarterPage({ starter }: Props) {
   const config = {
     title: title,
     openGraph: {
+      url: ogUrl({ slug }),
       description: description,
       images: [
         {

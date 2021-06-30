@@ -1,4 +1,3 @@
-import Document from 'next/document'
 import useSWR, { SWRResponse } from 'swr'
 import Link from 'next/link'
 
