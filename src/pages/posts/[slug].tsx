@@ -21,7 +21,7 @@ interface Props {
   post: Post
 }
 
-export default function Post({ post }: Props) {
+export default function PostPage({ post }: Props) {
   const {
     slug,
     data: { title, description, coverFull },

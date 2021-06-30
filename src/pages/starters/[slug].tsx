@@ -21,7 +21,7 @@ interface Props {
   starter: Starter
 }
 
-export default function Starter({ starter }: Props) {
+export default function StarterPage({ starter }: Props) {
   const {
     slug,
     data: { title, description, coverFull },

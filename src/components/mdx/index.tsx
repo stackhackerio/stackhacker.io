@@ -5,6 +5,7 @@ import CustomLink from './custom-link'
 import RemarkImg from './remark-img'
 import Code from './code'
 import InlineCode from './inline-code'
+import LinkCard from './link-card'
 
 interface Children {
   props: {
@@ -46,6 +47,7 @@ const components = ({ content, slug }: { content: string; slug: string }) => ({
   inlineCode: function remarkInlineCode({ children }: { children: string }) {
     return <InlineCode codeString={children} />
   },
+  LinkCard: LinkCard,
 })
 
 interface Props {
