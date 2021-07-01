@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Transition } from '@headlessui/react'
 import { useContext } from 'react'
 import { MenuMobileStatus } from './header'
@@ -22,8 +23,10 @@ export default function MenuMobil() {
             <div className="pt-5 pb-6 px-5 space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <img
+                  <Image
                     className="h-8 w-auto"
+                    width={32}
+                    height={32}
                     src="/logo-dark.svg"
                     alt="stackhacker"
                   />

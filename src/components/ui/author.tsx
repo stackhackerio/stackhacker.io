@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 type Props = {
   date: string
   readingTime: string | null
@@ -7,7 +9,9 @@ export default function Author({ date, readingTime }: Props) {
   return (
     <>
       <div className="flex-shrink-0">
-        <img
+        <Image
+          width={40}
+          height={40}
           className="h-10 w-10 rounded-full"
           src="/logo-dark.svg"
           alt="stackhacker"

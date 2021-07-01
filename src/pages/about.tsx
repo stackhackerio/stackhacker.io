@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 
 import Layout from '@/components/layout'
@@ -127,12 +129,13 @@ export default function About() {
           </div>
           <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
             <figure>
-              <img
+              <Image
                 className="w-full rounded-lg"
                 src="/logo-full.png"
                 alt=""
                 width="1310"
                 height="873"
+                quality={100}
               />
             </figure>
             <p>
@@ -162,12 +165,11 @@ export default function About() {
             </p>
             <p>お気軽にお問い合わせください。</p>
           </div>
-          <a
-            href="/contact"
-            className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 sm:w-auto"
-          >
-            お問い合わせ
-          </a>
+          <Link href="/contact">
+            <a className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 sm:w-auto">
+              お問い合わせ
+            </a>
+          </Link>
         </div>
       </div>
     </Layout>

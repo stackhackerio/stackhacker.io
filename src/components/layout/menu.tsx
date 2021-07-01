@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { MenuMobileStatus } from './header'
 
@@ -17,8 +18,10 @@ export default function Menu() {
             <Link href="/">
               <a>
                 <span className="sr-only">stackhacker</span>
-                <img
+                <Image
                   className="h-8 w-auto sm:h-10"
+                  width={40}
+                  height={40}
                   src="/logo.svg"
                   alt="Logo"
                 />

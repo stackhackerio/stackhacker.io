@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 type Props = {
   tags: [string]
   offerings: [string]
@@ -57,7 +59,9 @@ export default function Summary({ tags, offerings }: Props) {
                 rel="noreferrer"
               >
                 <div className="flex-shrink-0">
-                  <img
+                  <Image
+                    width={20}
+                    height={20}
                     className="h-5 w-5 rounded-full"
                     alt="stackhacker avatar"
                     src="/logo-dark.svg"
