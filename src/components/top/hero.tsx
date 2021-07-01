@@ -15,7 +15,7 @@ export default function Hero() {
                   </span>
                 </h1>
                 <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                  stackhackerはモダンな技術スタックであなたのビジネスを加速します。スターターにより迅速なローンチを実現し、アジャイルなプロダクトづくりをお手伝いします。
+                  stackhackerはモダンなテック・スタックであなたのビジネスを加速します。スターターによる迅速なローンチ、継続的なプロダクトづくりを実現します。
                 </p>
                 <div className="mt-10 sm:mt-12">
                   <div className="sm:flex">

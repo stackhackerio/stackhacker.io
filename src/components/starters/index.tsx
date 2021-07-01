@@ -25,7 +25,7 @@ export default function Index({ starters }: Props) {
             プロダクトづくりを加速
           </p>
           <p className="mt-5 mx-auto max-w-prose text-xl text-gray-500">
-            スターターにより迅速なローンチを実現します。モダンな技術スタックのスターターをカスタマイズしてより使いやすく、また日本語環境で安心して使えるようにローカライズしたスターターを提供します。
+            スターターにより迅速なローンチを実現します。モダンなテック・スタックのスターターを日本語環境でも安心して使えるようにローカライズ、さらにカスタマイズしてより使いやすくしたスターターを提供します。
           </p>
         </div>
         <div className="mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">

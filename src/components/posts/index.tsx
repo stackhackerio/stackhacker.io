@@ -22,10 +22,10 @@ export default function Index({ posts }: Props) {
             Blog
           </h2>
           <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-            技術スタックのお役立ち情報
+            テック・スタックのお役立ち情報
           </p>
           <p className="mt-5 mx-auto max-w-prose text-xl text-gray-500">
-            モダンな技術スタックの使いこなしのための、Tipsやノウハウをお届けします。
+            モダンなテック・スタックの使いこなしのための、Tipsやチュートリアルをお届けします。
           </p>
         </div>
         <div className="mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">
