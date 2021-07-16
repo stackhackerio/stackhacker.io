@@ -9,20 +9,20 @@ export default function Hero() {
             <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
               <div className="lg:py-24">
                 <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                  <span className="block">Accelarate</span>
+                  <span className="block">何でつくろう？</span>
                   <span className="block text-gray-400">
-                    Your business with a modern tech stack
+                    テック・スタック選びの羅針盤
                   </span>
                 </h1>
                 <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                  stackhackerはモダンなテック・スタックであなたのビジネスを加速します。スターターによる迅速なローンチ、継続的なプロダクトづくりを実現します。
+                  スターターを使ってプロダクトづくりをすぐにはじめられます。厳選したテック・スタックで、簡単にはじめられることができ、カスタマイズも自由自在。
                 </p>
                 <div className="mt-10 sm:mt-12">
                   <div className="sm:flex">
                     <div className="mt-3 sm:mt-0 sm:ml-3 text-center">
-                      <Link href="/about">
+                      <Link href="/starters">
                         <a className="block w-full py-3 px-4 rounded-md shadow bg-gray-500 text-white font-medium hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-gray-900">
-                          もっと詳しく
+                          すぐにはじめる
                         </a>
                       </Link>
                     </div>
@@ -35,7 +35,7 @@ export default function Hero() {
                 <img
                   className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                   src="/cloud-illustration-indigo-400.svg"
-                  alt=""
+                  alt="Cloud"
                 />
               </div>
             </div>

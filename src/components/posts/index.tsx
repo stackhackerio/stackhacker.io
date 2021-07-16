@@ -25,7 +25,7 @@ export default function Index({ posts }: Props) {
             テック・スタックのお役立ち情報
           </p>
           <p className="mt-5 mx-auto max-w-prose text-xl text-gray-500">
-            モダンなテック・スタックの使いこなしのための、Tipsやチュートリアルをお届けします。
+            テック・スタックの紹介や、使いこなしのためのTipsやチュートリアルをお届けします。
           </p>
         </div>
         <div className="mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">

@@ -22,10 +22,10 @@ export default function Index({ starters }: Props) {
             Starter
           </h2>
           <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-            プロダクトづくりを加速
+            プロダクトづくりをはじめる
           </p>
           <p className="mt-5 mx-auto max-w-prose text-xl text-gray-500">
-            スターターにより迅速なローンチを実現します。モダンなテック・スタックのスターターを日本語環境でも安心して使えるようにローカライズ、さらにカスタマイズしてより使いやすくしたスターターを提供します。
+            テック・スタックは、オープンソースとクラウドサービスをベースにしています。サインアップしてすぐにはじめられ、ユーザに最も近いフロントエンドに集中できます。
           </p>
         </div>
         <div className="mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">
