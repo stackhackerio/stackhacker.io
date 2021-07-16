@@ -1,7 +1,7 @@
 import Author from '@/components/ui/author'
 import Mdx from '@/components/mdx'
 import Background from './background'
-import type { Post } from '@/utils/mdx/posts'
+import type { Post } from '@/lib/mdx/posts'
 
 interface Props {
   post: Post

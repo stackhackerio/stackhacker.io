@@ -1,7 +1,7 @@
 import Title from './title'
 import Preview from './preview'
 import Content from './content'
-import type { Starter } from '@/utils/mdx/starters'
+import type { Starter } from '@/lib/mdx/starters'
 
 interface Props {
   starter: Starter

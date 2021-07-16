@@ -3,9 +3,9 @@ import { NextSeo } from 'next-seo'
 import defaultConfig from '../../../next-seo.config'
 import Layout from '@/components/layout'
 import Detail from '@/components/starters/detail'
-import { getStarter, fetchSlugs } from '@/utils/mdx/starters'
+import { getStarter, fetchSlugs } from '@/lib/mdx/starters'
 
-import type { Starter } from '@/utils/mdx/starters'
+import type { Starter } from '@/lib/mdx/starters'
 
 const {
   openGraph: { url },

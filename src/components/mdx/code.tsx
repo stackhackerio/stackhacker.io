@@ -3,7 +3,7 @@ import theme from 'prism-react-renderer/themes/nightOwl'
 import rangeParser from 'parse-numeric-range'
 import css from 'styled-jsx/css'
 
-import { copyToClipboard } from '@/utils/copy-to-clipboard'
+import { copyToClipboard } from '@/lib/clipboard/copy-to-clipboard'
 import Copy from '@/components/icons/copy'
 
 const calculateLinesToHighlight = (meta: string) => {
