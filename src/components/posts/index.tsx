@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import Author from '../ui/author'
-import type { Post } from '@/utils/mdx/posts'
+import type { Post } from '@/lib/mdx/posts'
 
 const requireCover = (post: Post) => {
   if (!post.slug || !post.data.cover) throw new Error()

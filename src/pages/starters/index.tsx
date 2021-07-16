@@ -2,8 +2,8 @@ import { NextSeo } from 'next-seo'
 
 import Layout from '@/components/layout'
 import StarterIndex from '@/components/starters'
-import { fetchStarters } from '@/utils/mdx/starters'
-import type { Starter } from '@/utils/mdx/starters'
+import { fetchStarters } from '@/lib/mdx/starters'
+import type { Starter } from '@/lib/mdx/starters'
 
 const config = {
   title: 'Starters',

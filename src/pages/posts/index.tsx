@@ -2,9 +2,9 @@ import { NextSeo } from 'next-seo'
 
 import Layout from '@/components/layout'
 import PostIndex from '@/components/posts'
-import { fetchPosts } from '@/utils/mdx/posts'
+import { fetchPosts } from '@/lib/mdx/posts'
 
-import type { Post } from '@/utils/mdx/posts'
+import type { Post } from '@/lib/mdx/posts'
 
 const config = {
   title: 'Posts',

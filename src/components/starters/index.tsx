@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import type { Starter } from '@/utils/mdx/starters'
+import type { Starter } from '@/lib/mdx/starters'
 
 const requireCover = (starter: Starter) => {
   if (!starter.slug || !starter.data.cover) throw new Error()
