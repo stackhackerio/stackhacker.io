@@ -6,6 +6,7 @@ import RemarkImg from './remark-img'
 import Code from './code'
 import InlineCode from './inline-code'
 import LinkCard from './link-card'
+import dynamic from 'next/dynamic'
 
 interface Children {
   props: {

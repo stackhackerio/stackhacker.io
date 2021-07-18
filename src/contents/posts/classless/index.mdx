@@ -13,7 +13,7 @@ Classless CSSフレームワーク、またはNo-Class CSSフレームワーク�
 
 Next.jsでも簡単に導入でき、すぐに使えるClassless CSSフレームワークを紹介します。
 
-## Watrer.css
+## Water.css
 
 まず、キャプチャをみていただくのが早いです。
 
@@ -25,13 +25,10 @@ Next.jsでも簡単に導入でき、すぐに使えるClassless CSSフレーム
 
 ライト/ダークモードのどちらか、ユーザーの環境にあわせて自動でライト/ダークを切替る、3つのテーマから選べます。
 
-Next.jsで使うのは簡単で、適用したいページに`Head`を`import`して、使いたいテーマのCSSのURLを下記のように追加するだけです。
+Next.jsで使うのは簡単です。`styles/globas.css`を使いたいテーマのCSSのURLに書き換えるだけです。
 
-```jsx
-<Head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-  ...
-</Head>
+```css
+@import url("https://cdn.jsdelivr.net/npm/water.css@2/out/water.css")
 ```
 
 コードや詳細はGitHubページより参照してください。
@@ -46,13 +43,10 @@ Next.jsで使うのは簡単で、適用したいページに`Head`を`import`�
 
 ※クリックして別ウィンドウで拡大表示できます。
 
-Wataer.cssと同様に、`Head`に以下を追加すれば使えます。
+Wataer.cssと同様に、`styles/globas.css`を以下に書き換えれば使用できます。
 
-```jsx
-<Head>
-  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-  ...
-</Head>
+```css
+@import url("https://unpkg.com/mvp.css")
 ```
 
 コードや詳細はGitHubページより参照してください。
