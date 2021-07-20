@@ -34,22 +34,21 @@ export default function LinkCard({ href }: Props) {
     <Link href={data.url}>
       <a target="_blank" className="flex" style={{ textDecoration: `none` }}>
         <div
-          className="h-36 w-36 md:h-40 md:w-40 border-l border-t border-b flex-none bg-cover rounded-t-none rounded-l text-center overflow-hidden bg-center"
+          className="h-28 w-28 md:h-40 md:w-40 border-l border-t border-b flex-none bg-cover rounded-t-none rounded-l text-center overflow-hidden bg-center"
           style={{
             backgroundImage: `url(${data?.image}), url(/noimage.png)`,
           }}
-          title="Woman holding a mug"
         ></div>
-        <div className="border-r border-l-0 border-t border-b bg-white hover:bg-gray-50 rounded-r p-4 flex flex-col justify-between leading-normal h-36 md:h-40">
+        <div className="border-r border-l-0 border-t border-b bg-white hover:bg-gray-50 rounded-r p-3 md:p-4 flex flex-col justify-between leading-normal h-28 md:h-40">
           <div>
-            <div className="text-black text-gray-800 font-bold">
+            <div className="text-black text-gray-800 text-sm md:text-lg font-bold line-clamp-1 md:line-clamp-2">
               {data?.title}
             </div>
-            <div className="text-base text-gray-600 mt-2">
+            <div className="text-sm md:text-base text-gray-600 mt-0 md:mt-2 line-clamp-2 md:line-clamp-3">
               {data?.description}
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-1">
             <img
               className="w-4 h-4 rounded-full"
               src={data?.logo}
