@@ -24,7 +24,7 @@ export default function Author({ date, readingTime }: Props) {
           {readingTime && (
             <>
               <span aria-hidden="true">&middot;</span>
-              <span>読了時間{readingTime}分</span>
+              <span>読了目安 {readingTime}分</span>
             </>
           )}
         </div>
