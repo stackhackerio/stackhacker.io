@@ -30,6 +30,9 @@ export const fetchPosts = (): Post[] => {
     const file = fs.readFileSync(filePath)
     const { content, data } = matter(file)
 
+    // 600 characters/min
+    Object.assign(data, { readingTime: Math.floor(content.length / 600) })
+
     return {
       slug,
       content,
