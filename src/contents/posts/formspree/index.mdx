@@ -40,13 +40,13 @@ category: Tech stack
 
 次に、Next.jsサイトを作成します。
 
-```sh
+```shell {filename: shell}
 npx create-next-app --use-npm formspree
 ```
 
 Formspreeが提供しているReact用のプラグインをインストールします。
 
-```sh
+```shell {filename: shell}
 npm install @formspree/react
 ```
 
@@ -56,13 +56,13 @@ npm install @formspree/react
 
 `styles/globals.css`を下記に書き換えます。
 
-```css
+```css {filename: styles/globals.css}
 @import url("https://cdn.jsdelivr.net/npm/water.css@2/out/water.css")
 ```
 
 `pages/contact.js`というファイルを作成して、フォームを作成します。
 
-```jsx {linenum=true}
+```jsx {lineNum}{filename: pages/contact.js}
 import { useForm } from "@formspree/react";
 
 export default function Contact() {
@@ -95,7 +95,7 @@ export default function Contact() {
 
 ローカルでサーバーを立ち上げます。
 
-```
+```shell {filename: shell}
 npm run dev
 ```
 

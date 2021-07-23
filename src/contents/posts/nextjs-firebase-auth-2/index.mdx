@@ -16,13 +16,13 @@ category: Tutorial
 
 `yarn`を使って、Next.jsのプロジェクトを生成します。
 
-```bash {hiddenLineNum}
+```shell {filename: shell}
 yarn create next-app
 ```
 
 "What is your project named?"と聞かれるので、ここでは`fastfeedback`と入力します。
 
-```bash {hiddenLineNum}
+```shell {filename: shell}
 cd fastfeedback
 yarn dev
 ```
@@ -43,7 +43,7 @@ http://localhost:3000
 
 FirebaseクライアントのSDKをインストールします。先ほど作成したプロジェクトディレクトリで`yarn`を実行します。
 
-```sh {hiddenLineNum}
+```shell {filename: shell}
 yarn add firebase@7.17.1
 ```
 
@@ -61,17 +61,13 @@ Next.jsで環境変数を追加するには、`.env`と`.env.local`ファイル�
 
 実際の値は違いますが、記述は下記のようにします。
 
-`.env`
-
-```
+```env {filename: .env}
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
 ```
 
-`.env.local`
-
-```
+```env {filename: .env.local}
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCes_HM5fdsJOU352-asdf253HKsd
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-app-1j324.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-app-1j324
@@ -89,9 +85,7 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-app-1j324
 
 これで安全にFirebaseに接続できます。新しいファイル`lib/firebase.js`を作成して、アプリケーションを初期化し、接続できるようにします。接続をできるようにする必要があるのは、最初に読み込まれたときだけにするために、`if`文を使用します。
 
-`lib/firebase.js`
-
-```js
+```js {filename: lib/firebase.js}
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/functions';

@@ -28,7 +28,7 @@ Reactでは、機能を再利用できるようにフックとしてまとめる
 
 まず、処理の概要を示します。
 
-```jsx
+```jsx {filename: 処理イメージ}
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import firebase from './firebase'
 
@@ -55,9 +55,7 @@ function useProvideAuth() {
 
 それでは、`lib/auth.js`というファイルを新規作成して、実際のサインインとアウトのロジックを追加して、現在サインインしているユーザー情報を保存します。
 
-`lib/auth.js`
-
-```jsx
+```jsx {filename: lib/auth.js}
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import firebase from './firebase'
 
@@ -136,9 +134,7 @@ const formatUser = (user) => {
 
 まず、コンテキストにアクセスするため、アプリケーションを`AuthProvider`で囲む必要があります。
 
-`pages/_app.js`
-
-```jsx
+```jsx {filename: pages/_app.js}
 import { AuthProvider } from '../lib/auth'
 
 const App = ({ Component, pageProps }) => {
@@ -154,9 +150,7 @@ export default App
 
 そして、`pages/index.js`というファイルを修正して、以下のコードにします。
 
-`pages/index.js`
-
-```jsx
+```jsx {filename: pages/index.js}
 import { useAuth } from '../lib/auth'
 
 export default function Index() {
@@ -184,7 +178,7 @@ export default function Index() {
 
 `auth.user`オブジェクトに保持されている情報は次のようになります。
 
-```json
+```json {filename: auth.user}
 {
   "uid": "xxxxxxxxxxxxxxxxx",
   "email": "xxx@xxxx.jp",

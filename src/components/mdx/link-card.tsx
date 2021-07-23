@@ -39,7 +39,7 @@ export default function LinkCard({ href }: Props) {
             backgroundImage: `url(${data?.image}), url(/noimage.png)`,
           }}
         ></div>
-        <div className="border-r border-l-0 border-t border-b bg-white hover:bg-gray-50 rounded-r p-3 md:p-4 flex flex-col justify-between leading-normal h-28 md:h-40">
+        <div className="flex-grow border-r border-l-0 border-t border-b bg-white hover:bg-gray-50 rounded-r p-3 md:p-4 flex flex-col justify-between leading-normal h-28 md:h-40">
           <div>
             <div className="text-black text-gray-800 text-sm md:text-lg font-bold line-clamp-1 md:line-clamp-2">
               {data?.title}

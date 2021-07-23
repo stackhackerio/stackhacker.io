@@ -18,9 +18,20 @@ const calculateLinesToHighlight = (meta: string) => {
   }
 }
 
-const hiddenLineNum = (meta: string) => {
-  const RE = /{hiddenLineNum}/
+const lineNum = (meta: string) => {
+  const RE = /\{lineNum\}/
   return RE.test(meta)
+}
+
+const filename = (meta: string) => {
+  const RE = /\{filename:\s+(.+)\}/
+  if (RE.test(meta)) {
+    const a = RE.exec(meta)
+    const name = a && a[1]
+    return name
+  } else {
+    return null
+  }
 }
 
 const styles = css`
@@ -57,16 +68,20 @@ export default function Code({ codeString, language, ...props }: Props) {
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <>
           <style jsx>{styles}</style>
-          <pre
-            className="font-code rounded overflow-x-auto relative"
-            style={style}
-          >
-            <button
-              className="absolute right-2 p-1 rounded bg-gray-600 hover:bg-gray-500 focus:ring-2 focus:ring-offset-2"
-              onClick={handleClick}
-            >
-              <Copy />
-            </button>
+          <pre className="font-code overflow-x-auto relative" style={style}>
+            <div className="h-8">
+              {props.metastring && filename(props.metastring) && (
+                <span className="absolute text-sm text-gray-300 p-1 -mt-4 -ml-2 bg-gray-600 rounded-br rounded-bl border-l border-b border-r border-gray-600">
+                  {filename(props.metastring)}
+                </span>
+              )}
+              <button
+                className="absolute -mt-2 right-2 p-1 text-base rounded bg-gray-600 hover:bg-gray-500 focus:ring-2 focus:ring-offset-2"
+                onClick={handleClick}
+              >
+                <Copy />
+              </button>
+            </div>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({ line, key: i })
               lineProps.className = `${lineProps.className} leading-5`
@@ -75,7 +90,7 @@ export default function Code({ codeString, language, ...props }: Props) {
               }
               return (
                 <div key={i} {...lineProps}>
-                  {props.metastring && !hiddenLineNum(props.metastring) && (
+                  {props.metastring && lineNum(props.metastring) && (
                     <span className="inline-block w-8 opacity-50">{i + 1}</span>
                   )}
                   {line.map((token, key) => (

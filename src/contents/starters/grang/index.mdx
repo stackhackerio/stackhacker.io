@@ -38,7 +38,7 @@ GraphCMS, Next.js, Stripe, Tailwind CSSを使って、モダンでSEO対策済�
 
 1. [`degit`](https://github.com/Rich-Harris/degit)でリポジトリをクローンし、プロジェクトの依存関係をインストールします。
 
-```bash {hiddenLineNum}
+```shell {filename: shell}
 npx degit GraphCMS/graphcms-commerce-starter#main graphcms-commerce-starter
 cd graphcms-commerce-starter
 yarn
@@ -50,7 +50,7 @@ yarn
 
 > GraphCMSの[auth tokens](https://graphcms.com/docs/authorization#permanent-auth-tokens)を別途作成して、データの照会や変更を行うことをお勧めします。
 
-```
+```shell {filename: shell}
 graphcms_mutation_token=
 next_public_graphcms_token=
 next_public_graphcms_url=
@@ -71,7 +71,7 @@ stripe_secret_key=
 
 > `locales`の配列に、GraphCMSプロジェクトで有効になっているロケールが反映されていることが重要です。
 
-```js
+```js {filename: graphcms.config.js}
 module.exports = {
   locales: [
     {
