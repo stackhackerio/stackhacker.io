@@ -26,7 +26,7 @@ Next.jsでも簡単に導入でき、すぐに使えるClassless CSSフレーム
 
 Next.jsで使うのは簡単です。`styles/globas.css`を使いたいテーマのCSSのURLに書き換えるだけです。
 
-```css
+```css {filename: styles/globas.css}
 @import url("https://cdn.jsdelivr.net/npm/water.css@2/out/water.css")
 ```
 
@@ -44,7 +44,7 @@ Next.jsで使うのは簡単です。`styles/globas.css`を使いたいテーマ
 
 Wataer.cssと同様に、`styles/globas.css`を以下に書き換えれば使用できます。
 
-```css
+```css {filename: styles/globas.css}
 @import url("https://unpkg.com/mvp.css")
 ```
 
@@ -62,13 +62,13 @@ Basic.cssもシンプルなサイトをつくる事ができます。
 
 npmで配布されているので、`npm`でインストールします。
 
-```sh
+```shell {filename: shell}
 $ npm install @vladocar/basic.css
 ```
 
 `pages/_app.js`で`import`して利用できます。
 
-```js
+```js {filename: pages/_app.js}
 import '@vladocar/basic.css'
 ```
 
@@ -92,13 +92,13 @@ import '@vladocar/basic.css'
 
 必要なパッケージ類をいれます。
 
-```sh
+```shell {filename: shell}
 npm install --save-dev @tailwindcss/forms @tailwindcss/typography @stackhackerio/classless
 ```
 
 `tailwind.config.js`にpluginを追加します。
 
-```js
+```js {filename: tailwind.config.js}
 plugins: [
   require('@tailwindcss/typography'),
   require('@tailwindcss/forms'),

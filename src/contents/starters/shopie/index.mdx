@@ -43,7 +43,7 @@ GraphQLを使ってShopifyのデータを照会し、カートの情報をlocalS
 
 ルートディレクトリに`.env.local`ファイルを作成します。以下の4つの変数を追加する必要があります。
 
-```
+```shell {filename: shell}
 SHOPIFY_STORE_FRONT_ACCESS_TOKEN=
 SHOPIFY_STORE_DOMAIN=
 SHOPIFY_COLLECTION=
@@ -58,7 +58,7 @@ NEXT_PUBLIC_LOCAL_STORAGE_NAME=
 
 プロジェクトのディレクトリーに移動し、以下のコマンドを実行します。
 
-```bash {hiddenLineNum}
+```shell {filename: shell}
 yarn && yarn dev
 ```
 
@@ -66,7 +66,7 @@ yarn && yarn dev
 
 サイトのメタデータは、next.config.jsファイルで更新できます。
 
-```
+```js {filename: next.config.js}
 env: {
   siteTitle: 'あなたの会社',
   siteDescription: 'あなたの会社の説明です',
@@ -81,7 +81,7 @@ env: {
 
 カラーパレットの更新はtailwind.config.jsファイルで行います。
 
-```
+```js {filename: tailwind.config.js}
 colors: {
   palette: {
     lighter: '',
