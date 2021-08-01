@@ -26,7 +26,7 @@
   "dependencies": {
     "@fontsource/inter": "^4.4.5",
     "@fontsource/noto-sans-jp": "^4.4.5",
-    "@fontsource/source-code-pro": "^4.4.5",
+    "@fontsource/source-code-pro": "^4.5.0",
     "@formspree/react": "^2.2.3",
     "@tailwindcss/line-clamp": "^0.2.1",
     "@types/parse-numeric-range": "0.0.1",
