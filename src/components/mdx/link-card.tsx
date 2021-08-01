@@ -44,7 +44,7 @@ export default function LinkCard({ href }: Props) {
             <div className="text-black text-gray-800 text-sm md:text-lg font-bold line-clamp-1 md:line-clamp-2">
               {data?.title}
             </div>
-            <div className="text-sm md:text-base text-gray-600 mt-0 md:mt-2 line-clamp-2 md:line-clamp-3">
+            <div className="text-sm md:text-base text-gray-600 mt-0 md:mt-1 line-clamp-2">
               {data?.description}
             </div>
           </div>
