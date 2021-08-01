@@ -32,7 +32,7 @@ SMS送信をするための電話番号が必要になります。今回はじ�
 
 ![Twilio phone number](twilio-phone-number.png)
 
-ダッシュボードで認証情報を確認することができるようになります。
+ダッシュボードで認証情報を確認できるようになります。
 
 ![Project info](project-info.png)
 
@@ -52,7 +52,7 @@ Supabaseで新しくプロジェクトを作成します。
 
 ![Create new project](create-new-project.png)
 
-「Name」にプロジェクトの名称、「Database Password」にデータベース接続に使用するパスワードを入力します。「Region」には想定ユーザのネットワークに近いリージョンを選択します。ここでは、「Northeast Asia (Tokyo)」を選択します。
+「Name」にプロジェクトの名称、「Database Password」はデータベース接続に使用するパスワードを入力します。「Region」には想定ユーザのネットワークに近いリージョンを選択します。ここでは、「Northeast Asia (Tokyo)」を選択します。
 
 「Create new project」をクリックして、新しくプロジェクトが作成されるまでしばらく待ちます。
 
@@ -60,7 +60,7 @@ Supabaseで新しくプロジェクトを作成します。
 
 サイドメニューから「Auth」を選択して、「Settings」を開いて設定画面を開きます。
 
-「Phone Auth」という欄があるので、トグルををオンにして、Twilioの情報を入力します。
+「Phone Auth」という欄があるので、トグルをオンにして、Twilioの情報を入力します。
 
 ![Phone auth](phone-auth.png)
 
@@ -88,7 +88,7 @@ npx create-next-app --use-npm supabase-nextjs-otp
 cd supabase-nextjs-otp
 ```
 
-次に、必要なパッケージををインストールします。
+次に、必要なパッケージをインストールします。
 
 ```shell {filename: shell}
 npm install @supabase/supabase-js
@@ -308,7 +308,7 @@ npm run dev
 
 まず、SMSを受信できる電話番号を入力します。その際に、電話番号のはじめに日本の国番号「81」をつける必要があります。
 
-SMSでワンタイム・パスワードを受信できたら、ワンタイム・パスワードを入力して、サインインすることができます。
+SMSでワンタイム・パスワードを受信できたら、ワンタイム・パスワードを入力して、サインインができます。
 
 ## おわりに
 
